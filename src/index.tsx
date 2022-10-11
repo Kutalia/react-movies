@@ -1,6 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { RouterProvider } from 'react-router-dom';
+import Container from '@mui/material/Container';
+import CssBaseline from '@mui/material/CssBaseline';
+
 import SearchAppBar from './components/SearchAppBar';
 import reportWebVitals from './reportWebVitals';
 
@@ -11,9 +14,11 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <SearchAppBar>
+    <CssBaseline />
+    <SearchAppBar />
+    <Container>
       <RouterProvider router={router} />
-    </SearchAppBar>
+    </Container>
   </React.StrictMode>
 );
 
