@@ -1,6 +1,6 @@
 import Carousel from 'react-material-ui-carousel';
 
-import { Movie } from './types';
+import { Movie } from '../types';
 import MovieItem from './MovieItem';
 
 interface PropTypes {

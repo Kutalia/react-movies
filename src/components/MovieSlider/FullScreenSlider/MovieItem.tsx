@@ -2,7 +2,7 @@ import { Card, Button } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2';
 import { css } from '@emotion/css';
 
-import { Movie } from './types';
+import { Movie } from '../types';
 
 const posterStyle = css`
   display: block;
