@@ -23,3 +23,9 @@ export interface GetResult {
   total_pages: number;
   total_results: 20000;
 }
+
+export interface HookState {
+  data: Array<Movie>;
+  loading: boolean;
+  error?: string;
+}

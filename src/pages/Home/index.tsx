@@ -1,23 +1,33 @@
 import { useEffect, useState } from 'react';
+import Snackbar from '@mui/material/Snackbar';
 
 import MovieSlider from '../../components/MovieSlider/FullScreenSlider';
-import { Movie } from '../../components/MovieSlider/types';
-import { getTrendingMovies } from '../../API/queries';
+import { useTrendingMovies } from '../../API/hooks';
+import Skeleton from '@mui/material/Skeleton';
+import Alert from '../../components/Alert';
 
 const Home = () => {
-  const [trendingMovies, setTrendingMovies] = useState<Array<Movie>>([]);
+  const [alert, setAlert] = useState<string | null>(null);
+  const { data: trendingMovies, error: trendingMoviesError, loading: trendingMoviesLoading } = useTrendingMovies();
 
   useEffect(() => {
-    getTrendingMovies().then((data) => {
-      if (data) {
-        setTrendingMovies(data);
-      }
-    });
-  }, []);
+    if (trendingMoviesError) {
+      setAlert('Error loading trending movies');
+    }
+  }, [trendingMoviesError])
+
+  const handleAlertClose = () => {
+    setAlert(null);
+  };
 
   return (
     <div>
       <MovieSlider movies={trendingMovies} />
+      <Snackbar open={!!alert} autoHideDuration={6000} onClose={handleAlertClose}>
+        <Alert onClose={handleAlertClose} severity="error" sx={{ width: '100%' }}>
+          {alert}
+        </Alert>
+      </Snackbar>
     </div>
   );
 };

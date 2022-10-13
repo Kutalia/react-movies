@@ -7,5 +7,6 @@ export const getTrendingMovies = async () => {
     return result.data.results;
   } catch (err) {
     console.error(err);
+    throw err;
   }
 };
