@@ -2,12 +2,12 @@ import { useEffect, useState } from 'react';
 import Snackbar from '@mui/material/Snackbar';
 
 import MovieSlider from '../../components/MovieSlider/FullScreenSlider';
-import { useTrendingMovies } from '../../API/hooks';
+import { useQuery, Query } from '../../API/hooks';
 import Alert from '../../components/Alert';
 
 const Home = () => {
   const [alert, setAlert] = useState<string | null>(null);
-  const { data: trendingMovies, error: trendingMoviesError, loading: trendingMoviesLoading } = useTrendingMovies();
+  const { data: trendingMovies, error: trendingMoviesError, loading: trendingMoviesLoading } = useQuery(Query.GET_TRENDING_MOVIES);
 
   useEffect(() => {
     if (trendingMoviesError) {

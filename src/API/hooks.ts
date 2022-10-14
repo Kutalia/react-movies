@@ -8,7 +8,15 @@ const defaultState = {
   data: [],
 };
 
-export const useTrendingMovies = () => {
+export enum Query {
+  GET_TRENDING_MOVIES,
+  GET_POPULAR_MOVIES,
+  GET_POPULAR_SERIES
+}
+
+type QueryParam = { [k: string]: string | number | null | undefined | boolean };
+
+export const useQuery = (query: Query, params?: QueryParam) => {
   const [state, setState] = useState<HookState>(defaultState);
 
   useEffect(() => {
@@ -17,7 +25,17 @@ export const useTrendingMovies = () => {
       loading: true,
     }));
 
-    getTrendingMovies().then((data) => {
+    let callApi: Promise<any>;
+
+    switch (query) {
+      case Query.GET_TRENDING_MOVIES:
+        callApi = getTrendingMovies();
+        break;
+      default:
+        callApi = Promise.reject('Invalid query');
+    }
+
+    callApi.then((data) => {
       if (data) {
         setState((prevState) => ({
           ...prevState,
@@ -35,7 +53,7 @@ export const useTrendingMovies = () => {
         loading: false,
       }));
     });
-  }, []);
+  }, [query]);
 
   return state;
 };
