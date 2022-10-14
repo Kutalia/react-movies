@@ -3,7 +3,6 @@ import Snackbar from '@mui/material/Snackbar';
 
 import MovieSlider from '../../components/MovieSlider/FullScreenSlider';
 import { useTrendingMovies } from '../../API/hooks';
-import Skeleton from '@mui/material/Skeleton';
 import Alert from '../../components/Alert';
 
 const Home = () => {
@@ -22,7 +21,7 @@ const Home = () => {
 
   return (
     <div>
-      <MovieSlider movies={trendingMovies} />
+      <MovieSlider movies={trendingMovies} loading={trendingMoviesLoading} />
       <Snackbar open={!!alert} autoHideDuration={6000} onClose={handleAlertClose}>
         <Alert onClose={handleAlertClose} severity="error" sx={{ width: '100%' }}>
           {alert}

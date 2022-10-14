@@ -29,6 +29,11 @@ export const useTrendingMovies = () => {
         ...prevState,
         error,
       }));
+    }).finally(() => {
+      setState((prevState) => ({
+        ...prevState,
+        loading: false,
+      }));
     });
   }, []);
 
