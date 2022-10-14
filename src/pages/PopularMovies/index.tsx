@@ -1,7 +1,7 @@
 const PopularMovies = () => {
   return (
     <div>
-      მოვედით
+      
     </div>
   );
 };

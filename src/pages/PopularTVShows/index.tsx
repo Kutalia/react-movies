@@ -1,7 +1,7 @@
 const PopularTVShows = () => {
   return (
     <div>
-      მოვედით
+      
     </div>
   );
 };

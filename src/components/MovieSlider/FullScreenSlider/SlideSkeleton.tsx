@@ -1,4 +1,4 @@
-import { Card } from '@mui/material'
+import Card from '@mui/material/Card';
 import Grid from '@mui/material/Unstable_Grid2';
 import Skeleton from '@mui/material/Skeleton';
 

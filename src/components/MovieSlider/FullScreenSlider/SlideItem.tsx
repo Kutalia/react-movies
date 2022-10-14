@@ -1,4 +1,5 @@
-import { Card, Button } from '@mui/material'
+import Card from '@mui/material/Card';
+import Button from '@mui/material/Button'
 import Grid from '@mui/material/Unstable_Grid2';
 import { css } from '@emotion/css';
 

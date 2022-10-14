@@ -1,3 +1,11 @@
+export enum Query {
+  GET_TRENDING_MOVIES,
+  GET_POPULAR_MOVIES,
+  GET_POPULAR_SERIES
+}
+
+export type QueryParam = { [k: string]: string | number | null | undefined | boolean };
+
 export interface Movie {
   poster_path?: string;
   adult?: boolean;
@@ -15,7 +23,6 @@ export interface Movie {
   video?: boolean;
   vote_average?: number;
 }
-
 
 export interface GetResult {
   page: number;

@@ -1,20 +1,12 @@
 import { useEffect, useState } from 'react';
 
-import { getTrendingMovies } from './queries';
-import { HookState } from './types';
+import { getPopularMovies, getTrendingMovies } from './queries';
+import { Query, HookState, QueryParam } from './types';
 
 const defaultState = {
   loading: false,
   data: [],
 };
-
-export enum Query {
-  GET_TRENDING_MOVIES,
-  GET_POPULAR_MOVIES,
-  GET_POPULAR_SERIES
-}
-
-type QueryParam = { [k: string]: string | number | null | undefined | boolean };
 
 export const useQuery = (query: Query, params?: QueryParam) => {
   const [state, setState] = useState<HookState>(defaultState);
@@ -30,6 +22,9 @@ export const useQuery = (query: Query, params?: QueryParam) => {
     switch (query) {
       case Query.GET_TRENDING_MOVIES:
         callApi = getTrendingMovies();
+        break;
+      case Query.GET_POPULAR_MOVIES:
+        callApi = getPopularMovies();
         break;
       default:
         callApi = Promise.reject('Invalid query');
