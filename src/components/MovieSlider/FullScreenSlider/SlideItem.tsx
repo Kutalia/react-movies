@@ -1,9 +1,11 @@
+import { useContext } from 'react';
 import Card from '@mui/material/Card';
 import Button from '@mui/material/Button'
 import Grid from '@mui/material/Unstable_Grid2';
 import { css } from '@emotion/css';
 
-import { Movie } from '../../../API/types';
+import { MediaType, Movie } from '../../../API/types';
+import { TrailerContext } from '../../Trailer/TrailerContext';
 
 const posterStyle = css`
   display: block;
@@ -15,6 +17,15 @@ interface PropTypes {
 }
 
 const MovieItem: React.FC<PropTypes> = ({ movie }) => {
+  const { setTrailerQuery } = useContext(TrailerContext);
+
+  const handleTrailerOpen = () => {
+    setTrailerQuery({
+      id: movie.id,
+      mediaType: MediaType.MOVIE,
+    });
+  };
+
   return (
     <Card variant="outlined">
       <Grid spacing={1} container sx={{ height: '420px' }}>
@@ -22,8 +33,8 @@ const MovieItem: React.FC<PropTypes> = ({ movie }) => {
           <h2>{movie.title}</h2>
           <p>{movie.overview}</p>
 
-          <Button className="CheckButton">
-            Check it out!
+          <Button className="CheckButton" onClick={handleTrailerOpen}>
+            Watch trailer
           </Button>
         </Grid>
         <Grid sx={{ padding: 0, height: '100%' }}>

@@ -1,15 +1,14 @@
 import { useEffect, useState } from 'react';
 
-import { getPopularTitles, getTrendingMovies } from './queries';
-import { Query, HookState, QueryParam, TitleCategory } from './types';
+import { getPopularTitles, getTrailer, getTrendingMovies } from './queries';
+import { Query, HookState, GetTrailerParams, MediaType, Trailer } from './types';
 
-const defaultState = {
-  loading: false,
-  data: [],
-};
+const defaultState = {};
 
-export const useQuery = (query: Query, params?: QueryParam) => {
-  const [state, setState] = useState<HookState>(defaultState);
+export const useQuery = <T>(query: Query, ...queryParams: (T extends Trailer ? [GetTrailerParams] : [])) => {
+  const [state, setState] = useState<HookState<T>>(defaultState);
+
+  const params = queryParams[0];
 
   useEffect(() => {
     setState((prevState) => ({
@@ -24,10 +23,17 @@ export const useQuery = (query: Query, params?: QueryParam) => {
         callApi = getTrendingMovies();
         break;
       case Query.GET_POPULAR_MOVIES:
-        callApi = getPopularTitles(TitleCategory.MOVIE);
+        callApi = getPopularTitles(MediaType.MOVIE);
         break;
       case Query.GET_POPULAR_SERIES:
-        callApi = getPopularTitles(TitleCategory.TV);
+        callApi = getPopularTitles(MediaType.TV);
+        break;
+      case Query.GET_TRAILER:
+        if (params) {
+          callApi = getTrailer(params.id, params.mediaType);
+        } else {
+          callApi = Promise.reject('Invalid parameters for getting trailer');
+        }
         break;
       default:
         callApi = Promise.reject('Invalid query');

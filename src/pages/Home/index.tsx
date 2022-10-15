@@ -5,13 +5,14 @@ import MovieSlider from '../../components/MovieSlider/FullScreenSlider';
 import MultipleTitleSlider from '../../components/MovieSlider/MultipleTitleSlider';
 import { useQuery } from '../../API/hooks';
 import { Query } from '../../API/types';
+import { Movie, TVShow } from '../../API/types';
 import Alert from '../../components/Alert';
 
 const Home = () => {
   const [alert, setAlert] = useState<string | null>(null);
-  const { data: trendingMovies, error: trendingMoviesError, loading: trendingMoviesLoading } = useQuery(Query.GET_TRENDING_MOVIES);
-  const { data: popularMovies, error: popularMoviesError, loading: popularMoviesLoading } = useQuery(Query.GET_POPULAR_MOVIES);
-  const { data: popularSeries, error: popularSeriesError, loading: popularSeriesLoading } = useQuery(Query.GET_POPULAR_SERIES);
+  const { data: trendingMovies, error: trendingMoviesError, loading: trendingMoviesLoading } = useQuery<Movie>(Query.GET_TRENDING_MOVIES);
+  const { data: popularMovies, error: popularMoviesError, loading: popularMoviesLoading } = useQuery<Movie>(Query.GET_POPULAR_MOVIES);
+  const { data: popularSeries, error: popularSeriesError, loading: popularSeriesLoading } = useQuery<TVShow>(Query.GET_POPULAR_SERIES);
 
   useEffect(() => {
     if (trendingMoviesError) {

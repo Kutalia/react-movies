@@ -10,12 +10,12 @@ import TitleItem from './TitleItem';
 const SLIDER_SIZE = 6;
 
 interface PropTypes {
-  titles: Array<Movie> | Array<TVShow>;
+  titles?: Array<Movie> | Array<TVShow>;
   loading?: boolean;
   title?: string;
 }
 
-const MultipleTitleSlider: React.FC<PropTypes> = ({ titles, loading, title }) => {
+const MultipleTitleSlider: React.FC<PropTypes> = ({ titles = [], loading, title }) => {
   const [filteredTitles, setFilteredTitles] = useState(titles.slice(0, SLIDER_SIZE));
 
   const handleSliderChange = useCallback((value: number) => {

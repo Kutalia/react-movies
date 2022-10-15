@@ -1,14 +1,18 @@
 export enum Query {
   GET_TRENDING_MOVIES,
   GET_POPULAR_MOVIES,
-  GET_POPULAR_SERIES
+  GET_POPULAR_SERIES,
+  GET_TRAILER,
 }
 
-export type QueryParam = { [k: string]: string | number | null | undefined | boolean };
-
-export enum TitleCategory {
+export enum MediaType {
   MOVIE = 'movie',
   TV = 'tv',
+}
+
+export interface GetTrailerParams {
+  id: number;
+  mediaType: MediaType;
 }
 
 export interface Movie {
@@ -50,8 +54,31 @@ export interface GetResult {
   total_results: 20000;
 }
 
-export interface HookState {
-  data: Array<Movie>;
-  loading: boolean;
+export interface Trailer {
+  id: string;
+  key: string;
+  name: string;
+  published_at: string;
+  official: boolean;
+  site: string;
+  type: string;
+}
+
+export interface TrailerResult {
+  [k: string]: any;
+  videos: {
+    results: Array<Trailer>;
+  }
+}
+
+export interface HookState<T> {
+  data?: T extends Movie
+  ? Array<Movie>
+  : T extends TVShow
+  ? Array<TVShow>
+  : T extends Trailer
+  ? Trailer
+  : any;
+  loading?: boolean;
   error?: string;
 }

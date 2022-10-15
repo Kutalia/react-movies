@@ -5,11 +5,11 @@ import MovieItem from './SlideItem';
 import SlideSkeleton from './SlideSkeleton';
 
 interface PropTypes {
-  movies: Array<Movie>;
+  movies?: Array<Movie>;
   loading?: boolean;
 }
 
-const MovieSlider: React.FC<PropTypes> = ({ movies, loading }) => {
+const MovieSlider: React.FC<PropTypes> = ({ movies = [], loading }) => {
   return (
     <>
       {loading && <SlideSkeleton />}
