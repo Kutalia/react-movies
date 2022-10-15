@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
-import { getPopularMovies, getTrendingMovies } from './queries';
-import { Query, HookState, QueryParam } from './types';
+import { getPopularTitles, getTrendingMovies } from './queries';
+import { Query, HookState, QueryParam, TitleCategory } from './types';
 
 const defaultState = {
   loading: false,
@@ -24,7 +24,10 @@ export const useQuery = (query: Query, params?: QueryParam) => {
         callApi = getTrendingMovies();
         break;
       case Query.GET_POPULAR_MOVIES:
-        callApi = getPopularMovies();
+        callApi = getPopularTitles(TitleCategory.MOVIE);
+        break;
+      case Query.GET_POPULAR_SERIES:
+        callApi = getPopularTitles(TitleCategory.TV);
         break;
       default:
         callApi = Promise.reject('Invalid query');

@@ -3,7 +3,7 @@ import Button from '@mui/material/Button'
 import Grid from '@mui/material/Unstable_Grid2';
 import { css } from '@emotion/css';
 
-import { Movie } from '../types';
+import { Movie } from '../../../API/types';
 
 const posterStyle = css`
   display: block;

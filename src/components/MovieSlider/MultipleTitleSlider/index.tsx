@@ -4,24 +4,25 @@ import Grid from '@mui/material/Unstable_Grid2';
 import Box from '@mui/material/Box';
 import Skeleton from '@mui/material/Skeleton';
 
-import { Movie } from '../types';
-import MovieItem from './MovieItem';
+import { Movie, TVShow } from '../../../API/types';
+import TitleItem from './TitleItem';
 
 const SLIDER_SIZE = 6;
 
 interface PropTypes {
-  movies: Array<Movie>;
+  titles: Array<Movie> | Array<TVShow>;
   loading?: boolean;
+  title?: string;
 }
 
-const MultipleMovieSlider: React.FC<PropTypes> = ({ movies, loading }) => {
-  const [filteredMovies, setFilteredMovies] = useState(movies.slice(0, SLIDER_SIZE));
+const MultipleTitleSlider: React.FC<PropTypes> = ({ titles, loading, title }) => {
+  const [filteredTitles, setFilteredTitles] = useState(titles.slice(0, SLIDER_SIZE));
 
   const handleSliderChange = useCallback((value: number) => {
-    if (movies.length) {
-      setFilteredMovies(movies.slice(value, value + SLIDER_SIZE));
+    if (titles.length) {
+      setFilteredTitles(titles.slice(value, value + SLIDER_SIZE));
     }
-  }, [movies]);
+  }, [titles]);
 
   useEffect(() => {
     handleSliderChange(0);
@@ -33,21 +34,21 @@ const MultipleMovieSlider: React.FC<PropTypes> = ({ movies, loading }) => {
   return (
     <>
       <Box sx={{ paddingX: 6, marginY: 8, textAlign: 'center' }}>
-        <h2>Popular movies of the year</h2>
+        {title && <h2>{title}</h2>}
         {loading
           ? <>
             {skeletons}
           </>
           : <>
             <Grid container>
-              {filteredMovies.map((movie) => (
-                <MovieItem movie={movie} key={movie.id} />
+              {filteredTitles.map((movie) => (
+                <TitleItem title={movie} key={movie.id} />
               ))}
             </Grid>
 
             <Box sx={{ textAlign: 'center' }}>
               <Slider
-                aria-label="Movies slider"
+                aria-label="Titles slider"
                 defaultValue={0}
                 step={1}
                 onChange={(_, value) => handleSliderChange(value as number)}
@@ -64,4 +65,4 @@ const MultipleMovieSlider: React.FC<PropTypes> = ({ movies, loading }) => {
   );
 };
 
-export default MultipleMovieSlider;
+export default MultipleTitleSlider;

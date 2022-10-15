@@ -1,5 +1,5 @@
 import axiosClient from './movieDbClient';
-import { GetResult } from './types';
+import { GetResult, TitleCategory } from './types';
 
 export const getTrendingMovies = async () => {
   try {
@@ -11,13 +11,13 @@ export const getTrendingMovies = async () => {
   }
 };
 
-export const getPopularMovies = async () => {
+export const getPopularTitles = async (titleCategory: TitleCategory) => {
   const currentDate = new Date();
   const endDate = currentDate.toISOString().slice(0, 10);
   const startDate = `${currentDate.getUTCFullYear()}-01-01`;
 
   try {
-    const result = await axiosClient.get<GetResult>(`/discover/movie?primary_release_date.gte=${startDate}&primary_release_date.lte=${endDate}`);
+    const result = await axiosClient.get<GetResult>(`/discover/${titleCategory}?primary_release_date.gte=${startDate}&primary_release_date.lte=${endDate}`);
     return result.data.results;
   } catch (err) {
     console.error(err);

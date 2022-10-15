@@ -1,6 +1,6 @@
 import Carousel from 'react-material-ui-carousel';
 
-import { Movie } from '../types';
+import { Movie } from '../../../API/types';
 import MovieItem from './SlideItem';
 import SlideSkeleton from './SlideSkeleton';
 

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import Snackbar from '@mui/material/Snackbar';
 
 import MovieSlider from '../../components/MovieSlider/FullScreenSlider';
-import MultipleMovieSlider from '../../components/MovieSlider/MultipleMultipleSlider';
+import MultipleTitleSlider from '../../components/MovieSlider/MultipleTitleSlider';
 import { useQuery } from '../../API/hooks';
 import { Query } from '../../API/types';
 import Alert from '../../components/Alert';
@@ -11,6 +11,7 @@ const Home = () => {
   const [alert, setAlert] = useState<string | null>(null);
   const { data: trendingMovies, error: trendingMoviesError, loading: trendingMoviesLoading } = useQuery(Query.GET_TRENDING_MOVIES);
   const { data: popularMovies, error: popularMoviesError, loading: popularMoviesLoading } = useQuery(Query.GET_POPULAR_MOVIES);
+  const { data: popularSeries, error: popularSeriesError, loading: popularSeriesLoading } = useQuery(Query.GET_POPULAR_SERIES);
 
   useEffect(() => {
     if (trendingMoviesError) {
@@ -35,7 +36,8 @@ const Home = () => {
         </Alert>
       </Snackbar>
 
-      <MultipleMovieSlider movies={popularMovies} loading={popularMoviesLoading} />
+      <MultipleTitleSlider titles={popularMovies} loading={popularMoviesLoading} title="Popular Movies This Year" />
+      <MultipleTitleSlider titles={popularSeries} loading={popularSeriesLoading} title="Popular TV Shows This Year" />
     </div>
   );
 };
