@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { getPopularTitles, getTrailer, getTrendingMovies } from './queries';
+import { getGenres, getPopularTitles, getTrailer, getTrendingMovies } from './queries';
 import { Query, HookState, GetTrailerParams, MediaType, Trailer } from './types';
 
 const defaultState = {};
@@ -35,6 +35,9 @@ export const useQuery = <T>(query: Query, ...queryParams: (T extends Trailer ? [
           callApi = Promise.reject('Invalid parameters for getting trailer');
         }
         break;
+      case Query.GET_GENRES:
+        callApi = getGenres();
+        break;
       default:
         callApi = Promise.reject('Invalid query');
     }
@@ -57,7 +60,7 @@ export const useQuery = <T>(query: Query, ...queryParams: (T extends Trailer ? [
         loading: false,
       }));
     });
-  }, [query]);
+  }, [query, params]);
 
   return state;
 };

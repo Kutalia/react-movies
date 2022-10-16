@@ -1,41 +1,38 @@
-import { useEffect, useState } from 'react';
-import Snackbar from '@mui/material/Snackbar';
+import { useEffect, useContext } from 'react';
 
 import MovieSlider from '../../components/MovieSlider/FullScreenSlider';
 import MultipleTitleSlider from '../../components/MovieSlider/MultipleTitleSlider';
 import { useQuery } from '../../API/hooks';
 import { Query } from '../../API/types';
-import { Movie, TVShow } from '../../API/types';
-import Alert from '../../components/Alert';
+import { Movie, TVShow, Genre } from '../../API/types';
+import { AlertContext } from '../../components/Alert/AlertContext';
 
 const Home = () => {
-  const [alert, setAlert] = useState<string | null>(null);
-  const { data: trendingMovies, error: trendingMoviesError, loading: trendingMoviesLoading } = useQuery<Movie>(Query.GET_TRENDING_MOVIES);
-  const { data: popularMovies, error: popularMoviesError, loading: popularMoviesLoading } = useQuery<Movie>(Query.GET_POPULAR_MOVIES);
-  const { data: popularSeries, error: popularSeriesError, loading: popularSeriesLoading } = useQuery<TVShow>(Query.GET_POPULAR_SERIES);
+  const { setAlert } = useContext(AlertContext);
+
+  const { data: trendingMovies, error: trendingMoviesError, loading: trendingMoviesLoading } = useQuery<Array<Movie>>(Query.GET_TRENDING_MOVIES);
+  const { data: popularMovies, error: popularMoviesError, loading: popularMoviesLoading } = useQuery<Array<Movie>>(Query.GET_POPULAR_MOVIES);
+  const { data: popularSeries, error: popularSeriesError, loading: popularSeriesLoading } = useQuery<Array<TVShow>>(Query.GET_POPULAR_SERIES);
+  const { data: genres, error: genresError, loading: genresLoading } = useQuery<Array<Genre>>(Query.GET_GENRES);
 
   useEffect(() => {
     if (trendingMoviesError) {
       setAlert('Error loading trending movies of the week');
     }
-    else if (popularMoviesError) {
+    if (popularMoviesError) {
       setAlert('Error loading popular movies of the year');
     }
-  }, [trendingMoviesError])
-
-  const handleAlertClose = () => {
-    setAlert(null);
-  };
+    if (popularSeriesError) {
+      setAlert('Error loading popular series of the year');
+    }
+    if (genresError) {
+      setAlert('Error loading genres');
+    }
+  }, [trendingMoviesError, popularMoviesError, popularSeriesError, genresError, setAlert]);
 
   return (
     <div>
       <MovieSlider movies={trendingMovies} loading={trendingMoviesLoading} />
-      
-      <Snackbar open={!!alert} autoHideDuration={6000} onClose={handleAlertClose}>
-        <Alert onClose={handleAlertClose} severity="error" sx={{ width: '100%' }}>
-          {alert}
-        </Alert>
-      </Snackbar>
 
       <MultipleTitleSlider titles={popularMovies} loading={popularMoviesLoading} title="Popular Movies This Year" />
       <MultipleTitleSlider titles={popularSeries} loading={popularSeriesLoading} title="Popular TV Shows This Year" />

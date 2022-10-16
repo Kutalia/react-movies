@@ -8,7 +8,8 @@ import SearchAppBar from './components/SearchAppBar';
 import reportWebVitals from './reportWebVitals';
 
 import router from './router';
-import { TrailerProvider, defaultValue } from './components/Trailer/TrailerContext';
+import { TrailerProvider } from './components/Trailer/TrailerContext';
+import { AlertsProvider } from './components/Alert/AlertContext';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -16,11 +17,13 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <TrailerProvider>
-      <CssBaseline />
-      <SearchAppBar />
-      <Container>
-        <RouterProvider router={router} />
-      </Container>
+      <AlertsProvider>
+        <CssBaseline />
+        <SearchAppBar />
+        <Container>
+          <RouterProvider router={router} />
+        </Container>
+      </AlertsProvider>
     </TrailerProvider>
   </React.StrictMode>
 );

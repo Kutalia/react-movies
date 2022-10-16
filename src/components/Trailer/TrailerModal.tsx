@@ -8,7 +8,7 @@ import Box from '@mui/material/Box';
 import { useQuery } from '../../API/hooks';
 import { GetTrailerParams, Query, Trailer } from '../../API/types';
 import { TrailerContext } from './TrailerContext';
-import Alert from '../../components/Alert';
+import Alert from '../Alert/Alert';
 
 const TrailerModal = () => {
   const [alert, setAlert] = useState<string | null>(null);

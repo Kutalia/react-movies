@@ -3,6 +3,7 @@ export enum Query {
   GET_POPULAR_MOVIES,
   GET_POPULAR_SERIES,
   GET_TRAILER,
+  GET_GENRES,
 }
 
 export enum MediaType {
@@ -71,14 +72,17 @@ export interface TrailerResult {
   }
 }
 
+export interface Genre {
+  id: number;
+  name: string;
+}
+
+export interface GenreResult {
+  genres: Array<Genre>;
+}
+
 export interface HookState<T> {
-  data?: T extends Movie
-  ? Array<Movie>
-  : T extends TVShow
-  ? Array<TVShow>
-  : T extends Trailer
-  ? Trailer
-  : any;
+  data?: T;
   loading?: boolean;
   error?: string;
 }
