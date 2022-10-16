@@ -1,7 +1,7 @@
 import Carousel from 'react-material-ui-carousel';
 
 import { Movie } from '../../../API/types';
-import MovieItem from './SlideItem';
+import SlideItem from './SlideItem';
 import SlideSkeleton from './SlideSkeleton';
 
 interface PropTypes {
@@ -15,7 +15,7 @@ const MovieSlider: React.FC<PropTypes> = ({ movies = [], loading }) => {
       {loading && <SlideSkeleton />}
       <Carousel autoPlay={false} swipe={false}>
         {
-          movies.map((item) => <MovieItem key={item.id} movie={item} />)
+          movies.map((item) => <SlideItem key={item.id} movie={item} />)
         }
       </Carousel>
     </>

@@ -2,6 +2,7 @@ import { useEffect, useContext } from 'react';
 
 import MovieSlider from '../../components/MovieSlider/FullScreenSlider';
 import MultipleTitleSlider from '../../components/MovieSlider/MultipleTitleSlider';
+import GenresSlider from '../../components/GenresSlider';
 import { useQuery } from '../../API/hooks';
 import { Query } from '../../API/types';
 import { Movie, TVShow, Genre } from '../../API/types';
@@ -36,6 +37,8 @@ const Home = () => {
 
       <MultipleTitleSlider titles={popularMovies} loading={popularMoviesLoading} title="Popular Movies This Year" />
       <MultipleTitleSlider titles={popularSeries} loading={popularSeriesLoading} title="Popular TV Shows This Year" />
+
+      <GenresSlider genres={genres} loading={genresLoading} title="Movie and TV Show Genres" />
     </div>
   );
 };
