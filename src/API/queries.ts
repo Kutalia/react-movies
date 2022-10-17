@@ -1,10 +1,10 @@
 import axiosClient from './movieDbClient';
-import { GenreResult, GetResult, MediaType, TrailerResult } from './types';
+import { GenreResult, GetResult, MediaType, TrailerResult, TVShow, Movie } from './types';
 
 export const getTrendingMovies = async () => {
   try {
-    const result = await axiosClient.get<GetResult>('/trending/movie/week');
-    return result.data.results;
+    const result = await axiosClient.get<GetResult<Movie>>('/trending/movie/week');
+    return result.data.results.slice(0, 10);
   } catch (err) {
     console.error(err);
     throw err;
@@ -17,8 +17,8 @@ export const getPopularTitles = async (mediaType: MediaType) => {
   const startDate = `${currentDate.getUTCFullYear()}-01-01`;
 
   try {
-    const result = await axiosClient.get<GetResult>(`/discover/${mediaType}?primary_release_date.gte=${startDate}&primary_release_date.lte=${endDate}`);
-    return result.data.results;
+    const result = await axiosClient.get<GetResult<Movie | TVShow>>(`/discover/${mediaType}?primary_release_date.gte=${startDate}&primary_release_date.lte=${endDate}`);
+    return result.data.results.slice(0, 20);
   } catch (err) {
     console.error(err);
     throw err;
@@ -37,13 +37,32 @@ export const getTrailer = async (id: number, mediaType: MediaType) => {
 
 export const getGenres = async () => {
   try {
-    const movieResult = await axiosClient.get<GenreResult>('/genre/movie/list');
-    const tvResult = await axiosClient.get<GenreResult>('/genre/tv/list');
+    const [movieResult, tvResult] = await Promise.all([
+      axiosClient.get<GenreResult>('/genre/movie/list'),
+      axiosClient.get<GenreResult>('/genre/tv/list'),
+    ]);
 
     const movieGenres = movieResult.data.genres;
     const tvGenres = tvResult.data.genres;
 
     return Array.from(new Set([...movieGenres, ...tvGenres]));
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
+
+export const searchTitles = async (query: string) => {
+  try {
+    const [movieResult, tvResult] = await Promise.all([
+      axiosClient.get<GetResult<Movie>>(`/search/movie/?query=${query}`),
+      axiosClient.get<GetResult<TVShow>>(`/search/tv/?query=${query}`),
+    ]);
+
+    const searchedMovies = movieResult.data.results;
+    const searchedTVShows = tvResult.data.results;
+    
+    return [...searchedMovies, ...searchedTVShows];
   } catch (err) {
     console.error(err);
     throw err;

@@ -36,27 +36,25 @@ const stylesWrapper = css`
 `;
 
 interface PropTypes {
-  title: Movie | TVShow;
+  title: ReturnType<typeof normalizeTitle>;
 }
 
 const TitleItem: React.FC<PropTypes> = ({ title }) => {
-  const normalizedTitle = normalizeTitle(title);
-
   return (
     <Grid xs={2} position="relative" className={stylesWrapper}>
       <img
-        src={normalizedTitle.poster_path
-          ? `https://image.tmdb.org/t/p/w500/${normalizedTitle.poster_path}`
+        src={title.poster_path
+          ? `https://image.tmdb.org/t/p/w500/${title.poster_path}`
           : `${process.env.PUBLIC_URL}/poster-not-found.png`}
-        alt={`poster-${normalizedTitle.title}`}
+        alt={`poster-${title.title}`}
       />
       <Box className="description-wrapper">
         <Box className="description">
           <h3 className="title">
-            {normalizedTitle.title}
+            {title.title}
           </h3>
           <p className="release-date">
-            {normalizedTitle.release_date.slice(0, 4)}
+            {title.release_date.slice(0, 4)}
           </p>
         </Box>
       </Box>

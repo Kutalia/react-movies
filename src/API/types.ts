@@ -4,6 +4,7 @@ export enum Query {
   GET_POPULAR_SERIES,
   GET_TRAILER,
   GET_GENRES,
+  SEARCH_TITLES,
 }
 
 export enum MediaType {
@@ -11,10 +12,19 @@ export enum MediaType {
   TV = 'tv',
 }
 
+export interface GetResult<T> {
+  page: number;
+  results: Array<T>;
+  total_pages: number;
+  total_results: 20000;
+}
+
 export interface GetTrailerParams {
   id: number;
   mediaType: MediaType;
 }
+
+export type SearchTitlesParams = string;
 
 export interface Movie {
   poster_path?: string;
@@ -48,13 +58,6 @@ export interface TVShow {
   vote_average: number;
 }
 
-export interface GetResult {
-  page: number;
-  results: Array<Movie>;
-  total_pages: number;
-  total_results: 20000;
-}
-
 export interface Trailer {
   id: string;
   key: string;
@@ -66,7 +69,6 @@ export interface Trailer {
 }
 
 export interface TrailerResult {
-  [k: string]: any;
   videos: {
     results: Array<Trailer>;
   }

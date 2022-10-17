@@ -1,21 +1,27 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useMemo } from 'react';
 import Slider from '@mui/material/Slider';
 import Grid from '@mui/material/Unstable_Grid2';
 import Box from '@mui/material/Box';
 import Skeleton from '@mui/material/Skeleton';
 
 import { Movie, TVShow } from '../../../API/types';
+import { normalizeTitle } from '../../../API/helpers';
 import TitleItem from './TitleItem';
 
 const SLIDER_SIZE = 6;
 
 interface PropTypes {
-  titles?: Array<Movie> | Array<TVShow>;
+  titles?: Array<Movie | TVShow>;
   loading?: boolean;
   title?: string;
 }
 
-const MultipleTitleSlider: React.FC<PropTypes> = ({ titles = [], loading, title }) => {
+const MultipleTitleSlider: React.FC<PropTypes> = ({ titles: rawTitles = [], loading, title }) => {
+  const titles = useMemo(
+    () => rawTitles.map((title) => normalizeTitle(title)),
+    [rawTitles]
+  )
+
   const [filteredTitles, setFilteredTitles] = useState(titles.slice(0, SLIDER_SIZE));
 
   const handleSliderChange = useCallback((value: number) => {
