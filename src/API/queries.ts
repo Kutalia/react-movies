@@ -1,5 +1,5 @@
 import axiosClient from './movieDbClient';
-import { GenreResult, GetResult, MediaType, TrailerResult, TVShow, Movie } from './types';
+import { GenreResult, GetResult, MediaType, TrailerResult, TVShow, Movie, FullMovie, FullTVShow } from './types';
 
 export const getTrendingMovies = async () => {
   try {
@@ -27,8 +27,18 @@ export const getPopularTitles = async (mediaType: MediaType) => {
 
 export const getTrailer = async (id: number, mediaType: MediaType) => {
   try {
-    const result = await axiosClient.get<TrailerResult>(`/${mediaType}/${id}?append_to_response=videos`);
-    return result.data.videos.results.find(({ type, site }) => type === 'Trailer' && site === 'YouTube');
+    const result = await axiosClient.get<TrailerResult>(`/${mediaType}/${id}/videos`);
+    return result.data.results.find(({ type, site }) => type === 'Trailer' && site === 'YouTube');
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
+
+export const getFullTitle = async (id: number, mediaType: MediaType) => {
+  try {
+    const result = await axiosClient.get<FullMovie | FullTVShow>(`/${mediaType}/${id}`);
+    return result.data;
   } catch (err) {
     console.error(err);
     throw err;
