@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useRef, useCallback, useMemo, useEffect } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -10,8 +10,35 @@ import SearchTooltip from '../SearchTooltip';
 import SearchInput from '../SearchInput';
 
 const SearchAppBar = () => {
-  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+  const anchorRef = useRef<HTMLInputElement | null>(null);
+  const [anchorEl, setAnchorEl] = useState<HTMLInputElement | null>(null);
   const [query, setQuery] = useState('');
+
+  const open = !!anchorEl;
+
+  const openTooltip = useCallback(() => {
+    if (anchorRef.current) {
+      setAnchorEl(anchorRef.current);
+    }
+  }, [anchorRef]);
+
+  const closeTooltip = useCallback(() => {
+    setAnchorEl(null);
+  }, []);
+
+  useEffect(() => {
+    if (query) {
+      openTooltip();
+    } else {
+      closeTooltip();
+    }
+  }, [query, openTooltip, closeTooltip]);
+
+  const handleClick = useCallback(() => {
+    if (query) {
+      openTooltip();
+    }
+  }, [query, openTooltip]);
 
   // debounced query change handler
   const handleQueryChange = useMemo(() => {
@@ -31,18 +58,6 @@ const SearchAppBar = () => {
 
     return fn;
   }, []);
-
-  const open = !!anchorEl;
-
-  const openTooltip = (event: React.MouseEvent<HTMLButtonElement>) => {
-    if (!anchorEl) {
-      setAnchorEl(event.currentTarget);
-    }
-  };
-
-  const closeTooltip = () => {
-    setAnchorEl(null);
-  }
 
   return (
     <Box sx={{ flexGrow: 1, marginBottom: 4 }}>
@@ -72,8 +87,9 @@ const SearchAppBar = () => {
             Your N1 Place for Browsing  Movies
           </Typography>
           <SearchInput
-            onClick={openTooltip}
             onChange={handleQueryChange}
+            onClick={handleClick}
+            ref={anchorRef}
           />
         </Toolbar>
       </AppBar>

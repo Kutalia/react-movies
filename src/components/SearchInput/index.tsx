@@ -1,3 +1,4 @@
+import { forwardRef } from 'react';
 import { styled, alpha } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
@@ -49,7 +50,7 @@ interface PropTypes {
   onClick?: React.MouseEventHandler | undefined;
 }
 
-const SearchInput: React.FC<PropTypes> = ({ onChange, onClick }) => {
+const SearchInput = forwardRef<HTMLInputElement, PropTypes>(({ onChange, onClick }, ref) => {
   return (
     <Search>
       <SearchIconWrapper>
@@ -60,9 +61,10 @@ const SearchInput: React.FC<PropTypes> = ({ onChange, onClick }) => {
         inputProps={{ 'aria-label': 'search' }}
         onChange={onChange}
         onClick={onClick}
+        ref={ref}
       />
     </Search>
   );
-};
+});
 
 export default SearchInput;

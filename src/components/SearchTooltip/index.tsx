@@ -22,7 +22,7 @@ const SearchTooltip: React.FC<PropTypes> = ({ open, anchorEl, onClose, query }) 
     if (error) {
       setAlert('Error searching movies');
     }
-  }, [error]);
+  }, [error, setAlert]);
 
   return (
     <Popover
@@ -38,7 +38,7 @@ const SearchTooltip: React.FC<PropTypes> = ({ open, anchorEl, onClose, query }) 
       }}
     >
       <Box sx={{ width: '50vw' }}>
-        <MultipleTitleSlider titles={data} loading={loading} />
+        <MultipleTitleSlider titles={data} loading={loading} title={`Results found for "${query}"`} />
       </Box>
     </Popover>
   );
