@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect, useMemo } from 'react';
 import Slider from '@mui/material/Slider';
 import Grid from '@mui/material/Unstable_Grid2';
+import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Skeleton from '@mui/material/Skeleton';
 
@@ -40,7 +41,7 @@ const MultipleTitleSlider: React.FC<PropTypes> = ({ titles: rawTitles = [], load
   return (
     <>
       <Box sx={{ paddingX: 6, marginY: 8, textAlign: 'center' }}>
-        {title && <h2>{title}</h2>}
+        {title && <Typography variant="h4" marginBottom={2}>{title}</Typography>}
         {loading
           ? <>
             {skeletons}

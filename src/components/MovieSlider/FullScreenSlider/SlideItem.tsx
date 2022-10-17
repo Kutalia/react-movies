@@ -2,6 +2,7 @@ import { useContext } from 'react';
 import Card from '@mui/material/Card';
 import Button from '@mui/material/Button'
 import Grid from '@mui/material/Unstable_Grid2';
+import Typography from '@mui/material/Typography';
 import { css } from '@emotion/css';
 
 import { MediaType, Movie } from '../../../API/types';
@@ -30,8 +31,8 @@ const MovieItem: React.FC<PropTypes> = ({ movie }) => {
     <Card variant="outlined">
       <Grid spacing={1} container sx={{ height: '420px' }}>
         <Grid xs sx={{ padding: 4 }}>
-          <h2>{movie.title}</h2>
-          <p>{movie.overview}</p>
+          <Typography variant="h4">{movie.title}</Typography>
+          <Typography variant="body1" paddingTop={4}>{movie.overview}</Typography>
 
           <Button className="CheckButton" onClick={handleTrailerOpen}>
             Watch trailer

@@ -1,6 +1,7 @@
 import { useEffect, useContext } from 'react';
 import Popover from '@mui/material/Popover';
 import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography';
 
 import { useQuery } from '../../API/hooks';
 import { Query, Movie, TVShow } from '../../API/types';
@@ -15,9 +16,9 @@ interface PropTypes {
 }
 
 const SearchTooltip: React.FC<PropTypes> = ({ open, anchorEl, onClose, query }) => {
-  const { setAlert  } = useContext(AlertContext);
+  const { setAlert } = useContext(AlertContext);
   const { data, loading, error } = useQuery<Array<Movie | TVShow>>(Query.SEARCH_TITLES, query);
-  
+
   useEffect(() => {
     if (error) {
       setAlert('Error searching movies');
@@ -38,7 +39,20 @@ const SearchTooltip: React.FC<PropTypes> = ({ open, anchorEl, onClose, query }) 
       }}
     >
       <Box sx={{ width: '50vw' }}>
-        <MultipleTitleSlider titles={data} loading={loading} title={`Results found for "${query}"`} />
+        {data?.length
+          ? <MultipleTitleSlider
+            titles={data}
+            loading={loading}
+            title={`Results found for "${query}"`}
+          />
+          : <Typography
+            variant="h4"
+            component="div"
+            sx={{ padding: 4 }}
+          >
+            No results found
+          </Typography>
+        }
       </Box>
     </Popover>
   );

@@ -1,8 +1,8 @@
 import Grid from '@mui/material/Unstable_Grid2';
 import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 import { css } from '@emotion/css';
 
-import { Movie, TVShow } from '../../../API/types';
 import { normalizeTitle } from '../../../API/helpers';
 
 const stylesWrapper = css`
@@ -50,12 +50,12 @@ const TitleItem: React.FC<PropTypes> = ({ title }) => {
       />
       <Box className="description-wrapper">
         <Box className="description">
-          <h3 className="title">
+          <Typography variant="h5" padding={2}>
             {title.title}
-          </h3>
-          <p className="release-date">
+          </Typography>
+          <Typography variant="body1">
             {title.release_date.slice(0, 4)}
-          </p>
+          </Typography>
         </Box>
       </Box>
     </Grid>

@@ -61,8 +61,8 @@ export const searchTitles = async (query: string) => {
 
     const searchedMovies = movieResult.data.results;
     const searchedTVShows = tvResult.data.results;
-    
-    return [...searchedMovies, ...searchedTVShows];
+
+    return [...searchedMovies, ...searchedTVShows].slice(0, 20);
   } catch (err) {
     console.error(err);
     throw err;
