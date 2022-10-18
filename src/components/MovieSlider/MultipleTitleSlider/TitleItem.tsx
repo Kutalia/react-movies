@@ -1,4 +1,5 @@
 import Grid from '@mui/material/Unstable_Grid2';
+import { Link } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { css } from '@emotion/css';
@@ -49,14 +50,16 @@ const TitleItem: React.FC<PropTypes> = ({ title }) => {
         alt={`poster-${title.title}`}
       />
       <Box className="description-wrapper">
-        <Box className="description">
-          <Typography variant="h5" padding={2}>
-            {title.title}
-          </Typography>
-          <Typography variant="body1">
-            {title.release_date.slice(0, 4)}
-          </Typography>
-        </Box>
+        <Link to={`${title.media_type}/${title.id}`}>
+          <Box className="description">
+            <Typography variant="h5" padding={2}>
+              {title.title}
+            </Typography>
+            <Typography variant="body1">
+              {title.release_date.slice(0, 4)}
+            </Typography>
+          </Box>
+        </Link>
       </Box>
     </Grid>
   )

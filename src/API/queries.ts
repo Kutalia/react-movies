@@ -1,10 +1,20 @@
 import axiosClient from './movieDbClient';
-import { GenreResult, GetResult, MediaType, TrailerResult, TVShow, Movie, FullMovie, FullTVShow } from './types';
+import {
+  GenreResult,
+  GetResult,
+  MediaType,
+  TrailerResult,
+  RawTVShow,
+  RawMovie,
+  FullMovie,
+  FullTVShow,
+} from './types';
+import { concatMediaType } from './helpers';
 
 export const getTrendingMovies = async () => {
   try {
-    const result = await axiosClient.get<GetResult<Movie>>('/trending/movie/week');
-    return result.data.results.slice(0, 10);
+    const result = await axiosClient.get<GetResult<RawMovie>>('/trending/movie/week');
+    return concatMediaType(result.data.results.slice(0, 10), MediaType.MOVIE);
   } catch (err) {
     console.error(err);
     throw err;
@@ -17,15 +27,15 @@ export const getPopularTitles = async (mediaType: MediaType) => {
   const startDate = `${currentDate.getUTCFullYear()}-01-01`;
 
   try {
-    const result = await axiosClient.get<GetResult<Movie | TVShow>>(`/discover/${mediaType}?primary_release_date.gte=${startDate}&primary_release_date.lte=${endDate}`);
-    return result.data.results.slice(0, 20);
+    const result = await axiosClient.get<GetResult<RawMovie | RawTVShow>>(`/discover/${mediaType}?primary_release_date.gte=${startDate}&primary_release_date.lte=${endDate}`);
+    return concatMediaType(result.data.results.slice(0, 20), mediaType);
   } catch (err) {
     console.error(err);
     throw err;
   }
 };
 
-export const getTrailer = async (id: number, mediaType: MediaType) => {
+export const getTrailer = async ({ id, mediaType }: { id: number, mediaType: MediaType }) => {
   try {
     const result = await axiosClient.get<TrailerResult>(`/${mediaType}/${id}/videos`);
     return result.data.results.find(({ type, site }) => type === 'Trailer' && site === 'YouTube');
@@ -35,7 +45,7 @@ export const getTrailer = async (id: number, mediaType: MediaType) => {
   }
 };
 
-export const getFullTitle = async (id: number, mediaType: MediaType) => {
+export const getFullTitle = async ({ id, mediaType }: { id: number, mediaType: MediaType }) => {
   try {
     const result = await axiosClient.get<FullMovie | FullTVShow>(`/${mediaType}/${id}`);
     return result.data;
@@ -65,14 +75,17 @@ export const getGenres = async () => {
 export const searchTitles = async (query: string) => {
   try {
     const [movieResult, tvResult] = await Promise.all([
-      axiosClient.get<GetResult<Movie>>(`/search/movie/?query=${query}`),
-      axiosClient.get<GetResult<TVShow>>(`/search/tv/?query=${query}`),
+      axiosClient.get<GetResult<RawMovie>>(`/search/movie/?query=${query}`),
+      axiosClient.get<GetResult<RawTVShow>>(`/search/tv/?query=${query}`),
     ]);
 
     const searchedMovies = movieResult.data.results;
     const searchedTVShows = tvResult.data.results;
 
-    return [...searchedMovies, ...searchedTVShows].slice(0, 20);
+    return [
+      ...concatMediaType((searchedMovies.map((movie) => ({ ...movie, media_type: MediaType.MOVIE }))), MediaType.MOVIE),
+      ...concatMediaType(searchedTVShows.map((tvShow) => ({ ...tvShow, media_type: MediaType.TV })), MediaType.TV),
+    ].slice(0, 20);
   } catch (err) {
     console.error(err);
     throw err;

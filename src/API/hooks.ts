@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
-import { getGenres, getPopularTitles, getTrailer, getTrendingMovies, searchTitles } from './queries';
-import { Query, HookState, GetTrailerParams, MediaType, Trailer, SearchTitlesParams, Movie, TVShow } from './types';
+import { getFullTitle, getGenres, getPopularTitles, getTrailer, getTrendingMovies, searchTitles } from './queries';
+import { Query, HookState, GetTrailerParams, MediaType, Trailer, SearchTitlesParams, Movie, TVShow, FullMovie, GetTitleParams, FullTVShow } from './types';
 
 const defaultState = {};
 
@@ -14,6 +14,8 @@ export const useQuery = <T>(
     ? []
     : T extends Array<Movie | TVShow>
     ? [SearchTitlesParams]
+    : T extends FullMovie | FullTVShow
+    ? [GetTitleParams]
     : [])
 ) => {
   const [state, setState] = useState<HookState<T>>(defaultState);
@@ -35,7 +37,7 @@ export const useQuery = <T>(
         break;
       case Query.GET_TRAILER:
         if (params) {
-          callApi = getTrailer((params as GetTrailerParams).id, (params as GetTrailerParams).mediaType);
+          callApi = getTrailer(params as GetTitleParams);
         } else {
           callApi = Promise.reject('Invalid parameters for getting trailer');
         }
@@ -46,6 +48,15 @@ export const useQuery = <T>(
       case Query.SEARCH_TITLES:
         if (params) {
           callApi = searchTitles(params as SearchTitlesParams);
+        } else if (params == null) {
+          callApi = Promise.reject('Invalid parameters for searching titles');
+        }
+        break;
+      case Query.GET_FULL_TITLE:
+        if (params) {
+          callApi = getFullTitle(params as GetTitleParams);
+        } else {
+          callApi = Promise.reject('Invalid parameters for getting full title');
         }
         break;
       default:

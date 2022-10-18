@@ -5,6 +5,7 @@ export enum Query {
   GET_TRAILER,
   GET_GENRES,
   SEARCH_TITLES,
+  GET_FULL_TITLE,
 }
 
 export enum MediaType {
@@ -24,9 +25,14 @@ export interface GetTrailerParams {
   mediaType: MediaType;
 }
 
+export interface GetTitleParams {
+  id: number;
+  mediaType: MediaType;
+}
+
 export type SearchTitlesParams = string;
 
-export interface Movie {
+export type RawMovie = {
   poster_path?: string;
   adult?: boolean;
   overview?: string;
@@ -41,7 +47,11 @@ export interface Movie {
   vote_count: number;
   video?: boolean;
   vote_average: number;
-}
+};
+
+export type Movie = RawMovie & {
+  media_type: MediaType; // custom property for telling apart movies and tv shows
+};
 
 export interface Genre {
   id: number;
@@ -99,7 +109,7 @@ export interface FullMovie {
   vote_countr: number;
 }
 
-export interface TVShow {
+export type RawTVShow = {
   backdrop_path?: string;
   first_air_date: string;
   id: number;
@@ -112,7 +122,11 @@ export interface TVShow {
   vote_count: number;
   poster_path?: string;
   vote_average: number;
-}
+};
+
+export type TVShow = RawTVShow & {
+  media_type: MediaType; // custom property for telling apart movies and tv shows
+};
 
 export interface Credit {
   credit_id: string;
