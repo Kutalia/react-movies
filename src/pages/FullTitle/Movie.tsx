@@ -1,5 +1,5 @@
-import { useMemo } from 'react';
-import { useParams } from 'react-router-dom';
+import { useMemo, useContext, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
@@ -9,8 +9,9 @@ import { styled } from '@mui/material/styles';
 
 import { useQuery } from '../../API/hooks';
 import { FullMovie, MediaType, Query } from '../../API/types';
-import { formatNumber } from './helpers';
+import { formatNumber, getCrewByJob } from './helpers';
 import TrailerButton from '../../components/TrailerButton';
+import { AlertContext } from '../../components/Alert/AlertContext';
 
 const FieldTitle = styled('span')(() => ({
   fontWeight: 'bold',
@@ -18,13 +19,27 @@ const FieldTitle = styled('span')(() => ({
 
 const Movie = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const queryParams = useMemo(() => ({ mediaType: MediaType.MOVIE, id: id as unknown as number }), [id]);
 
+  const { setAlert } = useContext(AlertContext);
+
   const { data: movie, error, loading } = useQuery<FullMovie>(Query.GET_FULL_TITLE, queryParams);
+
+  useEffect(() => {
+    if (error) {
+      setAlert('Error loading movie');
+      navigate('/');
+    }
+  }, [error, setAlert, navigate])
 
   if (loading || !movie) {
     return <CircularProgress />;
   }
+
+  const directors = getCrewByJob(movie, 'Director');
+  const screenplay = getCrewByJob(movie, 'Screenplay');
+  const composers = getCrewByJob(movie, 'Original Music Composer');
 
   return (
     <Box>
@@ -55,6 +70,30 @@ const Movie = () => {
           }
 
           <TrailerButton id={movie.id} mediaType={MediaType.MOVIE} />
+
+          {
+            !!directors.length &&
+            <Typography variant="body2">
+              <FieldTitle>Directed by:</FieldTitle>&nbsp;
+              {directors.join(', ')}
+            </Typography>
+          }
+
+          {
+            !!screenplay.length &&
+            <Typography variant="body2">
+              <FieldTitle>Screenplay by:</FieldTitle>&nbsp;
+              {screenplay.join(', ')}
+            </Typography>
+          }
+
+          {
+            !!composers.length &&
+            <Typography variant="body2">
+              <FieldTitle>Music by:</FieldTitle>&nbsp;
+              {composers.join(', ')}
+            </Typography>
+          }
 
           <Typography variant="body2">
             <FieldTitle>Status:</FieldTitle>&nbsp;
