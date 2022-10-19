@@ -44,9 +44,9 @@ export type RawMovie = {
   title?: string;
   backdrop_path?: string;
   popularity: number;
-  vote_count: number;
+  vote_count?: number;
   video?: boolean;
-  vote_average: number;
+  vote_average?: number;
 };
 
 export type Movie = RawMovie & {
@@ -76,6 +76,11 @@ export interface SpokenLanguage {
   name: string;
 }
 
+export interface Keyword {
+  id: number;
+  name: string;
+}
+
 export interface FullMovie {
   adult: boolean;
   backdrop_path: string;
@@ -98,15 +103,18 @@ export interface FullMovie {
   production_companies?: Array<ProductionCompany>;
   production_countries?: Array<ProductionCountry>;
   release_date: string;
-  revenue: number;
+  revenue?: number;
   runtime: number;
   spoken_languages: Array<SpokenLanguage>;
   status?: string;
-  tagline: string;
+  tagline?: string;
   title: string;
   video: boolean;
-  vote_average: number;
-  vote_countr: number;
+  vote_average?: number;
+  vote_count?: number;
+  keywords: {
+    keywords: Array<Keyword>;
+  };
 }
 
 export type RawTVShow = {
@@ -119,9 +127,9 @@ export type RawTVShow = {
   original_name?: string;
   overview?: string;
   popularity: number;
-  vote_count: number;
+  vote_count?: number;
   poster_path?: string;
-  vote_average: number;
+  vote_average?: number;
 };
 
 export type TVShow = RawTVShow & {
@@ -147,8 +155,8 @@ export interface Episode {
   season_number: number;
   show_id: number;
   still_path?: string;
-  vote_average: number;
-  vote_count: number;
+  vote_average?: number;
+  vote_count?: number;
 }
 
 export interface Network {
@@ -191,15 +199,18 @@ export interface FullTVShow {
   overview: string;
   popularity: number;
   poseter_path?: string;
-  production_companies: Array<ProductionCompany>;
-  production_countries: Array<ProductionCountry>;
+  production_companies?: Array<ProductionCompany>;
+  production_countries?: Array<ProductionCountry>;
   seasons: Array<Season>;
   spoken_languages: Array<SpokenLanguage>;
   status: string;
-  tagline: string;
+  tagline?: string;
   type: string;
-  vote_average: number;
-  vote_count: number;
+  vote_average?: number;
+  vote_count?: number;
+  keywords: {
+    keywords: Array<Keyword>;
+  };
 }
 
 export interface Trailer {
