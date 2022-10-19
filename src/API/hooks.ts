@@ -1,7 +1,21 @@
 import { useEffect, useState } from 'react';
 
-import { getFullTitle, getGenres, getPopularTitles, getTrailer, getTrendingMovies, searchTitles } from './queries';
-import { Query, HookState, GetTrailerParams, MediaType, Trailer, SearchTitlesParams, Movie, TVShow, FullMovie, GetTitleParams, FullTVShow } from './types';
+import { getFullTitle, getGenres, getPopularTitles, getReviews, getTrailer, getTrendingMovies, searchTitles } from './queries';
+import {
+  Query,
+  HookState,
+  GetTrailerParams,
+  MediaType,
+  Trailer,
+  SearchTitlesParams,
+  Movie,
+  TVShow,
+  FullMovie,
+  GetTitleParams,
+  FullTVShow,
+  GetReviewsParams,
+  Review
+} from './types';
 
 const defaultState = {};
 
@@ -16,6 +30,8 @@ export const useQuery = <T>(
     ? [SearchTitlesParams]
     : T extends FullMovie | FullTVShow
     ? [GetTitleParams]
+    : T extends Array<Review>
+    ? [GetReviewsParams]
     : [])
 ) => {
   const [state, setState] = useState<HookState<T>>(defaultState);
@@ -57,6 +73,13 @@ export const useQuery = <T>(
           callApi = getFullTitle(params as GetTitleParams);
         } else {
           callApi = Promise.reject('Invalid parameters for getting full title');
+        }
+        break;
+      case Query.GET_REVIEWS:
+        if (params) {
+          callApi = getReviews(params as GetReviewsParams);
+        } else {
+          callApi = Promise.reject('Invalid parameters for getting title reviews');
         }
         break;
       default:

@@ -6,6 +6,7 @@ export enum Query {
   GET_GENRES,
   SEARCH_TITLES,
   GET_FULL_TITLE,
+  GET_REVIEWS,
 }
 
 export enum MediaType {
@@ -26,6 +27,11 @@ export interface GetTrailerParams {
 }
 
 export interface GetTitleParams {
+  id: number;
+  mediaType: MediaType;
+}
+
+export interface GetReviewsParams {
   id: number;
   mediaType: MediaType;
 }
@@ -79,6 +85,28 @@ export interface SpokenLanguage {
 export interface Keyword {
   id: number;
   name: string;
+}
+
+export interface Review {
+  author: string;
+  author_details: {
+    avatar_path: string;
+    name: string;
+    rating: number;
+    username: string;
+  };
+  content: string;
+  created_at: string;
+  id: string;
+  updated_at: string;
+  url: string;
+}
+
+export interface ReviewResult {
+  page: number;
+  results: Array<Review>;
+  total_pages: number;
+  total_results: number;
 }
 
 export interface Cast {

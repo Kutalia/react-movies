@@ -8,7 +8,7 @@ import Rating from '@mui/material/Rating';
 import { styled } from '@mui/material/styles';
 
 import { useQuery } from '../../API/hooks';
-import { FullMovie, MediaType, Query } from '../../API/types';
+import { FullMovie, Review, MediaType, Query } from '../../API/types';
 import { formatNumber, getCrewByJob } from './helpers';
 import TrailerButton from '../../components/TrailerButton';
 import { AlertContext } from '../../components/Alert/AlertContext';
@@ -24,16 +24,24 @@ const Movie = () => {
 
   const { setAlert } = useContext(AlertContext);
 
-  const { data: movie, error, loading } = useQuery<FullMovie>(Query.GET_FULL_TITLE, queryParams);
+  const { data: movie, error: movieError, loading: movieLoading } = useQuery<FullMovie>(Query.GET_FULL_TITLE, queryParams);
+  const { data: reviews, error: reviewsError, loading: reviewsLoading } = useQuery<Array<Review>>(Query.GET_FULL_TITLE, queryParams);
 
   useEffect(() => {
-    if (error) {
-      setAlert('Error loading movie');
+    if (movieError || reviewsError) {
+      if (movieError) {
+        setAlert('error loading movie');
+      }
+  
+      if (reviewsError) {
+        setAlert('error loading reviews');
+      }
+
       navigate('/');
     }
-  }, [error, setAlert, navigate])
+  }, [movieError, reviewsError, setAlert, navigate])
 
-  if (loading || !movie) {
+  if (movieLoading || !movie || reviewsLoading || !reviews) {
     return <CircularProgress />;
   }
 
