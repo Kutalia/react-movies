@@ -3,7 +3,7 @@ import {
 } from 'react-router-dom';
 
 import Home from './pages/Home';
-import Movie from './pages/Movie';
+import Movie from './pages/FullTitle/Movie';
 
 const router = createBrowserRouter([
   {

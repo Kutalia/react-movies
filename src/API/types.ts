@@ -85,13 +85,13 @@ export interface FullMovie {
     name: string;
     poster_to_path: string;
   };
-  budget: number;
+  budget?: number;
   genres: Array<Genre>;
   homepage?: string;
   id: number;
   imdb_id?: string;
-  original_language: string;
-  original_title: string;
+  original_language?: string;
+  original_title?: string;
   overview?: string;
   popularity?: number;
   poster_path?: string;
