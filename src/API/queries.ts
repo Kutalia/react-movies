@@ -8,7 +8,7 @@ import {
   RawMovie,
   FullMovie,
   FullTVShow,
-  ReviewResult,
+  Review,
 } from './types';
 import { concatMediaType } from './helpers';
 
@@ -48,7 +48,7 @@ export const getTrailer = async ({ id, mediaType }: { id: number, mediaType: Med
 
 export const getFullTitle = async ({ id, mediaType }: { id: number, mediaType: MediaType }) => {
   try {
-    const result = await axiosClient.get<FullMovie | FullTVShow>(`/${mediaType}/${id}?append_to_response=keywords,credits`);
+    const result = await axiosClient.get<FullMovie | FullTVShow>(`/${mediaType}/${id}?append_to_response=keywords,credits,similar`);
     return result.data;
   } catch (err) {
     console.error(err);
@@ -58,7 +58,7 @@ export const getFullTitle = async ({ id, mediaType }: { id: number, mediaType: M
 
 export const getReviews = async ({ id, mediaType }: { id: number, mediaType: MediaType }) => {
   try {
-    const result = await axiosClient.get<ReviewResult>(`/${mediaType}/${id}/reviews`);
+    const result = await axiosClient.get<GetResult<Review>>(`/${mediaType}/${id}/reviews`);
     return result.data;
   } catch (err) {
     console.error(err);

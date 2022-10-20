@@ -1,10 +1,9 @@
-import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 
-import { Cast, FullMovie } from '../../API/types';
+import { Cast, FullMovie, Movie } from '../../API/types';
 
 export const formatNumber = (num: number) => {
   return num >= 1000000
@@ -16,7 +15,7 @@ export const getCrewByJob = (title: FullMovie, jobType: string) => {
   return title.credits.crew.filter(({ job }) => job === jobType).map(({ name }) => name);
 }
 
-export const renderItem = (actor: Cast) => {
+export const renderCastItem = (actor: Cast) => {
   return (
     <Card>
       <CardMedia
@@ -25,13 +24,33 @@ export const renderItem = (actor: Cast) => {
         image={actor.profile_path
           ? `https://image.tmdb.org/t/p/w500/${actor.profile_path}`
           : `${process.env.PUBLIC_URL}/poster-not-found.png`}
-        alt="green"
+          alt={`actor-poster-${actor.name}`}
       />
       <CardContent>
-        <Typography variant="h6" minHeight={70}>
+        <Typography variant="body1" minHeight={70}>
           {actor.name}
         </Typography>
       </CardContent>
     </Card>
   )
-}
+};
+
+export const renderSimilarMovieItem = (movie: Movie) => {
+  return (
+    <Card>
+      <CardMedia
+        draggable={false}
+        component="img"
+        image={movie.poster_path
+          ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
+          : `${process.env.PUBLIC_URL}/poster-not-found.png`}
+        alt={`similar-movie-poster-${movie.title}`}
+      />
+      <CardContent>
+        <Typography variant="body1" minHeight={70}>
+          {movie.title}
+        </Typography>
+      </CardContent>
+    </Card>
+  )
+};

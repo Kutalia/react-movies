@@ -18,7 +18,7 @@ export interface GetResult<T> {
   page: number;
   results: Array<T>;
   total_pages: number;
-  total_results: 20000;
+  total_results: number;
 }
 
 export interface GetTrailerParams {
@@ -102,13 +102,6 @@ export interface Review {
   url: string;
 }
 
-export interface ReviewResult {
-  page: number;
-  results: Array<Review>;
-  total_pages: number;
-  total_results: number;
-}
-
 export interface Cast {
   adult: boolean;
   cast_id: number;
@@ -176,6 +169,7 @@ export interface FullMovie {
     cast: Array<Cast>;
     crew: Array<Crew>;
   };
+  similar: GetResult<Movie>;
 }
 
 export type RawTVShow = {
@@ -272,6 +266,7 @@ export interface FullTVShow {
   keywords: {
     keywords: Array<Keyword>;
   };
+  similar: GetResult<TVShow>;
 }
 
 export interface Trailer {

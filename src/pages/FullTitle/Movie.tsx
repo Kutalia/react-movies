@@ -10,10 +10,10 @@ import { styled } from '@mui/material/styles';
 import { useQuery } from '../../API/hooks';
 import { FullMovie, Review, MediaType, Query } from '../../API/types';
 import GroupedSlider from '../../components/CustomSlider/GroupedSlider';
-import { formatNumber, getCrewByJob } from './helpers';
+import { formatNumber, getCrewByJob, renderSimilarMovieItem } from './helpers';
 import TrailerButton from '../../components/TrailerButton';
 import { AlertContext } from '../../components/Alert/AlertContext';
-import { renderItem } from './helpers';
+import { renderCastItem } from './helpers';
 import { CAST_ON_SCREEN_LIMIT } from './constants';
 
 const FieldTitle = styled('span')(() => ({
@@ -209,9 +209,17 @@ const Movie = () => {
 
       <GroupedSlider
         items={movie.credits.cast}
-        renderItem={renderItem}
+        renderItem={renderCastItem}
         loading={movieLoading}
         title="Cast"
+        onScreenLimit={CAST_ON_SCREEN_LIMIT}
+      />
+
+      <GroupedSlider
+        items={movie.similar.results}
+        renderItem={renderSimilarMovieItem}
+        loading={movieLoading}
+        title="Similar Movies"
         onScreenLimit={CAST_ON_SCREEN_LIMIT}
       />
     </Box>
