@@ -30,11 +30,11 @@ const Movie = () => {
   useEffect(() => {
     if (movieError || reviewsError) {
       if (movieError) {
-        setAlert('error loading movie');
+        setAlert('Error loading movie');
       }
   
       if (reviewsError) {
-        setAlert('error loading reviews');
+        setAlert('Error loading reviews');
       }
 
       navigate('/');
