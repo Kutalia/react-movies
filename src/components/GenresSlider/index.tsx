@@ -1,14 +1,7 @@
-import Typography from '@mui/material/Typography';
-
 import GroupedSlider from '../CustomSlider/GroupedSlider';
 import { Genre } from '../../API/types';
 import { GENRES_ON_SCREEN } from './constants';
-
-const renderItem = (item: Genre) => (
-  <Typography variant="body1">
-    {item.name}
-  </Typography>
-);
+import { renderItem } from './helpers';
 
 interface PropTypes {
   genres?: Array<Genre>;

@@ -26,12 +26,12 @@ const GroupedSlider = <T extends unknown>({ loading, title, items, onScreenLimit
         loading || !groupedItems.length
           ? <CircularProgress sx={{ margin: 'auto' }} />
           : <>
-            {title && <Typography variant="h4" marginBottom={2}>{title}</Typography>}
+            {title && <Typography sx={{ paddingY: 2 }} variant="h4" marginBottom={2}>{title}</Typography>}
             <Carousel autoPlay navButtonsAlwaysInvisible>
               {groupedItems.map((group, index) => (
                 <Grid container key={index}>
                   {group.map((item, index) => (
-                    <Grid xs key={index} sx={{ paddingRight: 4, minHeight: 80 }}>
+                    <Grid key={index} sx={{ paddingRight: 4, minHeight: 80, width: `${(1 / onScreenLimit) * 100}%` }}>
                       {renderItem(item)}
                     </Grid>
                   ))}

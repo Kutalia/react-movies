@@ -9,9 +9,12 @@ import { styled } from '@mui/material/styles';
 
 import { useQuery } from '../../API/hooks';
 import { FullMovie, Review, MediaType, Query } from '../../API/types';
+import GroupedSlider from '../../components/CustomSlider/GroupedSlider';
 import { formatNumber, getCrewByJob } from './helpers';
 import TrailerButton from '../../components/TrailerButton';
 import { AlertContext } from '../../components/Alert/AlertContext';
+import { renderItem } from './helpers';
+import { CAST_ON_SCREEN_LIMIT } from './constants';
 
 const FieldTitle = styled('span')(() => ({
   fontWeight: 'bold',
@@ -32,7 +35,7 @@ const Movie = () => {
       if (movieError) {
         setAlert('Error loading movie');
       }
-  
+
       if (reviewsError) {
         setAlert('Error loading reviews');
       }
@@ -203,6 +206,14 @@ const Movie = () => {
           />
         </Grid>
       </Grid>
+
+      <GroupedSlider
+        items={movie.credits.cast}
+        renderItem={renderItem}
+        loading={movieLoading}
+        title="Cast"
+        onScreenLimit={CAST_ON_SCREEN_LIMIT}
+      />
     </Box>
   );
 };
