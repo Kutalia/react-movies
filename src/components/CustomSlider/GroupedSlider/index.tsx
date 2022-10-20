@@ -27,6 +27,7 @@ const GroupedSlider = <T extends unknown>({ loading, title, items, onScreenLimit
           ? <CircularProgress sx={{ margin: 'auto' }} />
           : <>
             {title && <Typography sx={{ paddingY: 2 }} variant="h4" marginBottom={2}>{title}</Typography>}
+            {/* BUG: might not expand fully on first render https://github.com/Learus/react-material-ui-carousel/issues/189 */}
             <Carousel autoPlay navButtonsAlwaysInvisible>
               {groupedItems.map((group, index) => (
                 <Grid container key={index}>

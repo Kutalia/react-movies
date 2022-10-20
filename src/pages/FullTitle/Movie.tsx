@@ -8,13 +8,14 @@ import Rating from '@mui/material/Rating';
 import { styled } from '@mui/material/styles';
 
 import { useQuery } from '../../API/hooks';
-import { FullMovie, Review, MediaType, Query } from '../../API/types';
+import { FullMovie, MediaType, Query } from '../../API/types';
 import GroupedSlider from '../../components/CustomSlider/GroupedSlider';
 import { formatNumber, getCrewByJob, renderSimilarMovieItem } from './helpers';
 import TrailerButton from '../../components/TrailerButton';
 import { AlertContext } from '../../components/Alert/AlertContext';
 import { renderCastItem } from './helpers';
 import { CAST_ON_SCREEN_LIMIT } from './constants';
+import Reviews from './Reviews';
 
 const FieldTitle = styled('span')(() => ({
   fontWeight: 'bold',
@@ -23,28 +24,21 @@ const FieldTitle = styled('span')(() => ({
 const Movie = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const queryParams = useMemo(() => ({ mediaType: MediaType.MOVIE, id: id as unknown as number }), [id]);
+
+  const movieQueryParams = useMemo(() => ({ mediaType: MediaType.MOVIE, id: id as unknown as number }), [id]);
 
   const { setAlert } = useContext(AlertContext);
 
-  const { data: movie, error: movieError, loading: movieLoading } = useQuery<FullMovie>(Query.GET_FULL_TITLE, queryParams);
-  const { data: reviews, error: reviewsError, loading: reviewsLoading } = useQuery<Array<Review>>(Query.GET_FULL_TITLE, queryParams);
+  const { data: movie, error: movieError, loading: movieLoading } = useQuery<FullMovie>(Query.GET_FULL_TITLE, movieQueryParams);
 
   useEffect(() => {
-    if (movieError || reviewsError) {
-      if (movieError) {
-        setAlert('Error loading movie');
-      }
-
-      if (reviewsError) {
-        setAlert('Error loading reviews');
-      }
-
+    if (movieError) {
+      setAlert('Error loading movie');
       navigate('/');
     }
-  }, [movieError, reviewsError, setAlert, navigate])
+  }, [movieError, setAlert, navigate]);
 
-  if (movieLoading || !movie || reviewsLoading || !reviews) {
+  if (movieLoading || !movie) {
     return <CircularProgress />;
   }
 
@@ -222,6 +216,8 @@ const Movie = () => {
         title="Similar Movies"
         onScreenLimit={CAST_ON_SCREEN_LIMIT}
       />
+
+      <Reviews id={movie.id} />
     </Box>
   );
 };

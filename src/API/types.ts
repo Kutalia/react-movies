@@ -26,6 +26,11 @@ export interface GetTrailerParams {
   mediaType: MediaType;
 }
 
+export interface GetFullTitleParams {
+  id: number;
+  mediaType: MediaType;
+}
+
 export interface GetTitleParams {
   id: number;
   mediaType: MediaType;
@@ -34,6 +39,7 @@ export interface GetTitleParams {
 export interface GetReviewsParams {
   id: number;
   mediaType: MediaType;
+  page: number;
 }
 
 export type SearchTitlesParams = string;

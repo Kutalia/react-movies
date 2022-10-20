@@ -9,6 +9,9 @@ import {
   FullMovie,
   FullTVShow,
   Review,
+  GetReviewsParams,
+  GetTrailerParams,
+  GetFullTitleParams,
 } from './types';
 import { concatMediaType } from './helpers';
 
@@ -36,7 +39,7 @@ export const getPopularTitles = async (mediaType: MediaType) => {
   }
 };
 
-export const getTrailer = async ({ id, mediaType }: { id: number, mediaType: MediaType }) => {
+export const getTrailer = async ({ id, mediaType }: GetTrailerParams) => {
   try {
     const result = await axiosClient.get<TrailerResult>(`/${mediaType}/${id}/videos`);
     return result.data.results.find(({ type, site }) => type === 'Trailer' && site === 'YouTube');
@@ -46,7 +49,7 @@ export const getTrailer = async ({ id, mediaType }: { id: number, mediaType: Med
   }
 };
 
-export const getFullTitle = async ({ id, mediaType }: { id: number, mediaType: MediaType }) => {
+export const getFullTitle = async ({ id, mediaType }: GetFullTitleParams) => {
   try {
     const result = await axiosClient.get<FullMovie | FullTVShow>(`/${mediaType}/${id}?append_to_response=keywords,credits,similar`);
     return result.data;
@@ -56,9 +59,9 @@ export const getFullTitle = async ({ id, mediaType }: { id: number, mediaType: M
   }
 };
 
-export const getReviews = async ({ id, mediaType }: { id: number, mediaType: MediaType }) => {
+export const getReviews = async ({ id, mediaType, page }: GetReviewsParams) => {
   try {
-    const result = await axiosClient.get<GetResult<Review>>(`/${mediaType}/${id}/reviews`);
+    const result = await axiosClient.get<GetResult<Review>>(`/${mediaType}/${id}/reviews?page=${page}`);
     return result.data;
   } catch (err) {
     console.error(err);

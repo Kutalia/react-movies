@@ -13,6 +13,7 @@ import {
   FullMovie,
   GetTitleParams,
   FullTVShow,
+  GetResult,
   GetReviewsParams,
   Review
 } from './types';
@@ -30,7 +31,7 @@ export const useQuery = <T>(
     ? [SearchTitlesParams]
     : T extends FullMovie | FullTVShow
     ? [GetTitleParams]
-    : T extends Array<Review>
+    : T extends GetResult<Review>
     ? [GetReviewsParams]
     : [])
 ) => {

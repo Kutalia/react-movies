@@ -4,6 +4,7 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 
 import { Cast, FullMovie, Movie } from '../../API/types';
+import { API_PAGE_SIZE } from './constants';
 
 export const formatNumber = (num: number) => {
   return num >= 1000000
@@ -13,7 +14,7 @@ export const formatNumber = (num: number) => {
 
 export const getCrewByJob = (title: FullMovie, jobType: string) => {
   return title.credits.crew.filter(({ job }) => job === jobType).map(({ name }) => name);
-}
+};
 
 export const renderCastItem = (actor: Cast) => {
   return (
