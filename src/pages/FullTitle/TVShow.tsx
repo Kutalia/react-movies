@@ -15,7 +15,7 @@ import { AlertContext } from '../../components/Alert/AlertContext';
 import { renderCastItem } from './helpers';
 import { CAST_ON_SCREEN_LIMIT } from './constants';
 import Reviews from './Reviews';
-import { getEnglishLanguageName, FieldTitle } from './helpers';
+import { getEnglishLanguageName, Field } from './helpers';
 
 const TVShow = () => {
   const { id } = useParams();
@@ -72,169 +72,146 @@ const TVShow = () => {
             <Rating value={tvShow.vote_average} max={10} />
           )}
           {tvShow.vote_count != null && (
-            <Typography variant="body2">
-              <FieldTitle>{tvShow.vote_count}</FieldTitle>
-              &nbsp;votes
-            </Typography>
+            <Field title={tvShow.vote_count} body="votes" />
           )}
 
           <TrailerButton id={tvShow.id} mediaType={MediaType.TV} />
 
           {tvShow.original_name && (
-            <Typography variant="body2">
-              <FieldTitle>Original name:</FieldTitle>&nbsp;
-              {tvShow.original_name}
-            </Typography>
+            <Field title="Original name:" body={tvShow.original_name} />
           )}
 
-          {tvShow.type && (
-            <Typography variant="body2">
-              <FieldTitle>Type:</FieldTitle>&nbsp;
-              {tvShow.type}
-            </Typography>
-          )}
+          {tvShow.type && <Field title="Type:" body={tvShow.type} />}
 
           {!!tvShow.created_by.length && (
-            <Typography variant="body2">
-              <FieldTitle>Created by by:</FieldTitle>&nbsp;
-              {tvShow.created_by.map(({ name }) => name).join(', ')}
-            </Typography>
+            <Field
+              title="Created by:"
+              body={tvShow.created_by.map(({ name }) => name).join(', ')}
+            />
           )}
 
           {!!directors.length && (
-            <Typography variant="body2">
-              <FieldTitle>Directed by:</FieldTitle>&nbsp;
-              {directors.join(', ')}
-            </Typography>
+            <Field title="Directed by:" body={directors.join(', ')} />
           )}
 
           {!!screenplay.length && (
-            <Typography variant="body2">
-              <FieldTitle>Screenplay by:</FieldTitle>&nbsp;
-              {screenplay.join(', ')}
-            </Typography>
+            <Field title="Screenplay by:" body={screenplay.join(', ')} />
           )}
 
           {!!composers.length && (
-            <Typography variant="body2">
-              <FieldTitle>Music by:</FieldTitle>&nbsp;
-              {composers.join(', ')}
-            </Typography>
+            <Field title="Music by:" body={composers.join(', ')} />
           )}
 
-          <Typography variant="body2">
-            <FieldTitle>Status:</FieldTitle>&nbsp;
-            {tvShow.status}&nbsp;{tvShow.in_production && '(in production)'}
-          </Typography>
+          <Field
+            title="Status:"
+            body={`${tvShow.status}${
+              tvShow.in_production && ' (in production)'
+            }`}
+          />
 
-          <Typography variant="body2">
-            <FieldTitle>First aired on:</FieldTitle>&nbsp;
-            {tvShow.first_air_date || '_'}
-          </Typography>
+          <Field title="First aired on:" body={tvShow.first_air_date || '_'} />
 
-          <Typography variant="body2">
-            <FieldTitle>Last aired on:</FieldTitle>&nbsp;
-            {tvShow.last_air_date || '_'}
-          </Typography>
+          <Field title="Last aired on:" body={tvShow.last_air_date || '_'} />
 
           {!!tvShow.number_of_seasons && (
-            <Typography variant="body2">
-              <FieldTitle>Number of seasons:</FieldTitle>&nbsp;
-              {tvShow.number_of_seasons}
-            </Typography>
+            <Field title="Number of seasons:" body={tvShow.number_of_seasons} />
           )}
 
           {!!tvShow.number_of_episodes && (
-            <Typography variant="body2">
-              <FieldTitle>Number of episodes:</FieldTitle>&nbsp;
-              {tvShow.number_of_episodes}
-            </Typography>
+            <Field
+              title="Number of episodes:"
+              body={tvShow.number_of_episodes}
+            />
           )}
 
           {tvShow.last_episode_to_air && (
-            <Typography variant="body2">
-              <FieldTitle>Last episode aired:</FieldTitle>&nbsp;
-              {`"${tvShow.last_episode_to_air.name}" (season ${tvShow.last_episode_to_air.season_number}, episode ${tvShow.last_episode_to_air.episode_number})`}
-            </Typography>
+            <Field
+              title="Last episode aired:"
+              body={`"${tvShow.last_episode_to_air.name}" (season ${tvShow.last_episode_to_air.season_number}, episode ${tvShow.last_episode_to_air.episode_number})`}
+            />
           )}
 
           {tvShow.next_episode_to_air && (
-            <Typography variant="body2">
-              <FieldTitle>Next episode to air:</FieldTitle>&nbsp;
-              {`"${tvShow.next_episode_to_air.name}" (season ${tvShow.next_episode_to_air.season_number}, episode ${tvShow.next_episode_to_air.episode_number})`}
-            </Typography>
+            <Field
+              title="Next episode to air:"
+              body={`"${tvShow.next_episode_to_air.name}" (season ${tvShow.next_episode_to_air.season_number}, episode ${tvShow.next_episode_to_air.episode_number})`}
+            />
           )}
 
-          <Typography variant="body2">
-            <FieldTitle>Genres:</FieldTitle>&nbsp;
-            {tvShow.genres.map(({ name }) => name).join(', ')}
-          </Typography>
+          <Field
+            title="Genres:"
+            body={tvShow.genres.map(({ name }) => name).join(', ')}
+          />
 
           {!!tvShow.episode_run_time.length && (
-            <Typography variant="body2">
-              <FieldTitle>Episode runtime:</FieldTitle>&nbsp;
-              {tvShow.episode_run_time.join('m, ') + 'm'}
-            </Typography>
+            <Field
+              title="Episode runtime:"
+              body={tvShow.episode_run_time.join('m, ') + 'm'}
+            />
           )}
 
           {!!tvShow.homepage?.length && (
-            <Typography variant="body2">
-              <FieldTitle>Homepage:</FieldTitle>&nbsp;
-              <a href={tvShow.homepage}>{tvShow.homepage}</a>
-            </Typography>
+            <Field
+              title="Homepage:"
+              body={<a href={tvShow.homepage}>{tvShow.homepage}</a>}
+            />
           )}
 
           {!!tvShow.keywords.results.length && (
-            <Typography variant="body2">
-              <FieldTitle>Keywords:</FieldTitle>&nbsp;
-              {tvShow.keywords.results.map(({ name }) => name).join(', ')}
-            </Typography>
+            <Field
+              title="Keywords:"
+              body={tvShow.keywords.results.map(({ name }) => name).join(', ')}
+            />
           )}
 
           {!!tvShow.origin_country?.length && (
-            <Typography variant="body2">
-              <FieldTitle>Origin country:</FieldTitle>&nbsp;
-              {tvShow.origin_country.join(', ')}
-            </Typography>
+            <Field
+              title="Origin country:"
+              body={tvShow.origin_country.join(', ')}
+            />
           )}
 
           {!!tvShow.languages.length && (
-            <Typography variant="body2">
-              <FieldTitle>Languages:</FieldTitle>&nbsp;
-              {tvShow.languages.map((language) =>
+            <Field
+              title="Languages:"
+              body={tvShow.languages.map((language) =>
                 getEnglishLanguageName(language)
               )}
-            </Typography>
+            />
           )}
 
           {!!tvShow.original_language && (
-            <Typography variant="body2">
-              <FieldTitle>Original language:</FieldTitle>&nbsp;
-              {getEnglishLanguageName(tvShow.original_language)}
-            </Typography>
+            <Field
+              title="Original language:"
+              body={getEnglishLanguageName(tvShow.original_language)}
+            />
           )}
 
           {!!tvShow.spoken_languages.length && (
-            <Typography variant="body2">
-              <FieldTitle>Spoken languages:</FieldTitle>&nbsp;
-              {tvShow.spoken_languages
+            <Field
+              title="Spoken languages:"
+              body={tvShow.spoken_languages
                 .map(({ english_name }) => english_name)
                 .join(', ')}
-            </Typography>
+            />
           )}
 
           {!!tvShow.production_companies && (
-            <Typography variant="body2">
-              <FieldTitle>Production:</FieldTitle>&nbsp;
-              {tvShow.production_companies.map(({ name }) => name).join(', ')}
-            </Typography>
+            <Field
+              title="Production:"
+              body={tvShow.production_companies
+                .map(({ name }) => name)
+                .join(', ')}
+            />
           )}
 
           {!!tvShow.production_countries && (
-            <Typography variant="body2">
-              <FieldTitle>Production countries:</FieldTitle>&nbsp;
-              {tvShow.production_countries.map(({ name }) => name).join(', ')}
-            </Typography>
+            <Field
+              title="Production countries:"
+              body={tvShow.production_countries
+                .map(({ name }) => name)
+                .join(', ')}
+            />
           )}
         </Grid>
 

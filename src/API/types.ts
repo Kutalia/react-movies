@@ -256,7 +256,7 @@ export interface FullTVShow {
   networks: Array<Network>;
   next_episode_to_air?: Episode | null;
   number_of_episodes: number;
-  number_of_seasons: 1;
+  number_of_seasons: number;
   original_name?: string;
   origin_country?: Array<string>;
   original_language?: string;

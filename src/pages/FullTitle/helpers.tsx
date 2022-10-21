@@ -72,6 +72,18 @@ export const FieldTitle = styled('span')(() => ({
   fontWeight: 'bold',
 }));
 
+export interface FieldTypes {
+  title: React.ReactNode;
+  body: React.ReactNode;
+}
+
+export const Field: React.FC<FieldTypes> = ({ title, body }) => (
+  <Typography variant="body2">
+    <FieldTitle>{title}</FieldTitle>&nbsp;
+    {body}
+  </Typography>
+);
+
 export const getEnglishLanguageName = (language: string) => {
   return new Intl.DisplayNames('en-US', { type: 'language' }).of(language);
 };
