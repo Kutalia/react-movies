@@ -15,9 +15,10 @@ interface PropTypes {
   titles?: Array<Movie | TVShow>;
   loading?: boolean;
   title?: string;
+  onItemClick?: () => any;
 }
 
-const MultipleTitleSlider: React.FC<PropTypes> = ({ titles: rawTitles = [], loading, title }) => {
+const MultipleTitleSlider: React.FC<PropTypes> = ({ titles: rawTitles = [], loading, title, onItemClick }) => {
   const titles = useMemo(
     () => rawTitles.map((title) => normalizeTitle(title)),
     [rawTitles]
@@ -49,7 +50,7 @@ const MultipleTitleSlider: React.FC<PropTypes> = ({ titles: rawTitles = [], load
           : <>
             <Grid container>
               {filteredTitles.map((movie) => (
-                <TitleItem title={movie} key={movie.id} />
+                <TitleItem title={movie} key={movie.id} onClick={onItemClick} />
               ))}
             </Grid>
 

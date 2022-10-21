@@ -38,9 +38,10 @@ const stylesWrapper = css`
 
 interface PropTypes {
   title: ReturnType<typeof normalizeTitle>;
+  onClick?: () => any;
 }
 
-const TitleItem: React.FC<PropTypes> = ({ title }) => {
+const TitleItem: React.FC<PropTypes> = ({ title, onClick }) => {
   return (
     <Grid xs={2} position="relative" className={stylesWrapper}>
       <img
@@ -50,7 +51,7 @@ const TitleItem: React.FC<PropTypes> = ({ title }) => {
         alt={`poster-${title.title}`}
       />
       <Box className="description-wrapper">
-        <Link to={`${title.media_type}/${title.id}`}>
+        <Link to={`${title.media_type}/${title.id}`} onClick={onClick}>
           <Box className="description">
             <Typography variant="h6" padding={0.5}>
               {title.title}

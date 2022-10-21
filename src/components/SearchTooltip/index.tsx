@@ -43,7 +43,8 @@ const SearchTooltip: React.FC<PropTypes> = ({ open, anchorEl, onClose, query }) 
           ? <MultipleTitleSlider
             titles={data}
             loading={loading}
-            title={`Results found for "${query}"`}
+            title={query && `Results found for "${query}"`}
+            onItemClick={onClose}
           />
           : <Typography
             variant="h4"
