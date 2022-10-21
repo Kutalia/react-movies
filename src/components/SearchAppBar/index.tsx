@@ -1,4 +1,5 @@
 import { useState, useRef, useCallback, useMemo, useEffect } from 'react';
+import { Outlet } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -60,40 +61,44 @@ const SearchAppBar = () => {
   }, []);
 
   return (
-    <Box sx={{ flexGrow: 1, marginBottom: 4 }}>
-      <SearchTooltip
-        open={open}
-        anchorEl={anchorEl}
-        onClose={closeTooltip}
-        query={query}
-      />
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            sx={{ mr: 2 }}
-          >
-            <TheatersIcon />
-          </IconButton>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
-          >
-            Your N1 Place for Browsing  Movies
-          </Typography>
-          <SearchInput
-            onChange={handleQueryChange}
-            onClick={handleClick}
-            ref={anchorRef}
-          />
-        </Toolbar>
-      </AppBar>
-    </Box>
+    <>
+      <Box sx={{ flexGrow: 1, marginBottom: 4 }}>
+        <SearchTooltip
+          open={open}
+          anchorEl={anchorEl}
+          onClose={closeTooltip}
+          query={query}
+        />
+        <AppBar position="static">
+          <Toolbar>
+            <IconButton
+              size="large"
+              edge="start"
+              color="inherit"
+              aria-label="open drawer"
+              sx={{ mr: 2 }}
+            >
+              <TheatersIcon />
+            </IconButton>
+            <Typography
+              variant="h6"
+              noWrap
+              component="div"
+              sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+            >
+              Your N1 Place for Browsing  Movies
+            </Typography>
+            <SearchInput
+              onChange={handleQueryChange}
+              onClick={handleClick}
+              ref={anchorRef}
+            />
+          </Toolbar>
+        </AppBar>
+      </Box>
+      
+      <Outlet />
+    </>
   );
 }
 

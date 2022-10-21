@@ -19,7 +19,6 @@ root.render(
     <TrailerProvider>
       <AlertsProvider>
         <CssBaseline />
-        <SearchAppBar />
         <Container>
           <RouterProvider router={router} />
         </Container>

@@ -38,9 +38,9 @@ const Reviews: React.FC<PropTypes> = ({ id }) => {
   }, [error, setAlert]);
 
   // which api page is associated with the current front end page
-  const rowIndex = Math.floor(page / API_PAGE_SIZE);
+  const rowIndex = Math.floor((page - 1) / API_PAGE_SIZE);
   // review index in the api page
-  const columnIndex = page % API_PAGE_SIZE - 1;
+  const columnIndex = ((page - 1) % API_PAGE_SIZE);
 
   useEffect(() => {
     // request new page
@@ -66,7 +66,7 @@ const Reviews: React.FC<PropTypes> = ({ id }) => {
     return <CircularProgress />;
   }
 
-  if (!loading && reviewsData && !allReviews.length) {
+  if (!loading && reviewsData && !allReviews.length || !allReviews[rowIndex]) {
     return null;
   }
 

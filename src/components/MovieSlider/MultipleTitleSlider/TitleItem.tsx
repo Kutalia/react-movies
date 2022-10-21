@@ -52,7 +52,7 @@ const TitleItem: React.FC<PropTypes> = ({ title }) => {
       <Box className="description-wrapper">
         <Link to={`${title.media_type}/${title.id}`}>
           <Box className="description">
-            <Typography variant="h5" padding={2}>
+            <Typography variant="h6" padding={0.5}>
               {title.title}
             </Typography>
             <Typography variant="body1">
