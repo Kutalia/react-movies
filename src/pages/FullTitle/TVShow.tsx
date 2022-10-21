@@ -15,7 +15,7 @@ import { AlertContext } from '../../components/Alert/AlertContext';
 import { renderCastItem } from './helpers';
 import { CAST_ON_SCREEN_LIMIT } from './constants';
 import Reviews from './Reviews';
-import { FieldTitle } from './helpers';
+import { getEnglishLanguageName, FieldTitle } from './helpers';
 
 const TVShow = () => {
   const { id } = useParams();
@@ -80,6 +80,27 @@ const TVShow = () => {
 
           <TrailerButton id={tvShow.id} mediaType={MediaType.TV} />
 
+          {tvShow.original_name && (
+            <Typography variant="body2">
+              <FieldTitle>Original name:</FieldTitle>&nbsp;
+              {tvShow.original_name}
+            </Typography>
+          )}
+
+          {tvShow.type && (
+            <Typography variant="body2">
+              <FieldTitle>Type:</FieldTitle>&nbsp;
+              {tvShow.type}
+            </Typography>
+          )}
+
+          {!!tvShow.created_by.length && (
+            <Typography variant="body2">
+              <FieldTitle>Created by by:</FieldTitle>&nbsp;
+              {tvShow.created_by.map(({ name }) => name).join(', ')}
+            </Typography>
+          )}
+
           {!!directors.length && (
             <Typography variant="body2">
               <FieldTitle>Directed by:</FieldTitle>&nbsp;
@@ -103,13 +124,46 @@ const TVShow = () => {
 
           <Typography variant="body2">
             <FieldTitle>Status:</FieldTitle>&nbsp;
-            {tvShow.status}
+            {tvShow.status}&nbsp;{tvShow.in_production && '(in production)'}
           </Typography>
 
           <Typography variant="body2">
             <FieldTitle>First aired on:</FieldTitle>&nbsp;
             {tvShow.first_air_date || '_'}
           </Typography>
+
+          <Typography variant="body2">
+            <FieldTitle>Last aired on:</FieldTitle>&nbsp;
+            {tvShow.last_air_date || '_'}
+          </Typography>
+
+          {!!tvShow.number_of_seasons && (
+            <Typography variant="body2">
+              <FieldTitle>Number of seasons:</FieldTitle>&nbsp;
+              {tvShow.number_of_seasons}
+            </Typography>
+          )}
+
+          {!!tvShow.number_of_episodes && (
+            <Typography variant="body2">
+              <FieldTitle>Number of episodes:</FieldTitle>&nbsp;
+              {tvShow.number_of_episodes}
+            </Typography>
+          )}
+
+          {tvShow.last_episode_to_air && (
+            <Typography variant="body2">
+              <FieldTitle>Last episode aired:</FieldTitle>&nbsp;
+              {`"${tvShow.last_episode_to_air.name}" (season ${tvShow.last_episode_to_air.season_number}, episode ${tvShow.last_episode_to_air.episode_number})`}
+            </Typography>
+          )}
+
+          {tvShow.next_episode_to_air && (
+            <Typography variant="body2">
+              <FieldTitle>Next episode to air:</FieldTitle>&nbsp;
+              {`"${tvShow.next_episode_to_air.name}" (season ${tvShow.next_episode_to_air.season_number}, episode ${tvShow.next_episode_to_air.episode_number})`}
+            </Typography>
+          )}
 
           <Typography variant="body2">
             <FieldTitle>Genres:</FieldTitle>&nbsp;
@@ -137,16 +191,30 @@ const TVShow = () => {
             </Typography>
           )}
 
-          {!!tvShow.original_language && (
+          {!!tvShow.origin_country?.length && (
             <Typography variant="body2">
-              <FieldTitle>Original language:</FieldTitle>&nbsp;
-              {new Intl.DisplayNames('en-US', { type: 'language' }).of(
-                tvShow.original_language
+              <FieldTitle>Origin country:</FieldTitle>&nbsp;
+              {tvShow.origin_country.join(', ')}
+            </Typography>
+          )}
+
+          {!!tvShow.languages.length && (
+            <Typography variant="body2">
+              <FieldTitle>Languages:</FieldTitle>&nbsp;
+              {tvShow.languages.map((language) =>
+                getEnglishLanguageName(language)
               )}
             </Typography>
           )}
 
-          {tvShow.spoken_languages.length && (
+          {!!tvShow.original_language && (
+            <Typography variant="body2">
+              <FieldTitle>Original language:</FieldTitle>&nbsp;
+              {getEnglishLanguageName(tvShow.original_language)}
+            </Typography>
+          )}
+
+          {!!tvShow.spoken_languages.length && (
             <Typography variant="body2">
               <FieldTitle>Spoken languages:</FieldTitle>&nbsp;
               {tvShow.spoken_languages
@@ -164,7 +232,7 @@ const TVShow = () => {
 
           {!!tvShow.production_countries && (
             <Typography variant="body2">
-              <FieldTitle>Directed in:</FieldTitle>&nbsp;
+              <FieldTitle>Production countries:</FieldTitle>&nbsp;
               {tvShow.production_countries.map(({ name }) => name).join(', ')}
             </Typography>
           )}

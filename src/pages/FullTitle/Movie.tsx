@@ -178,7 +178,7 @@ const Movie = () => {
 
           {!!movie.production_countries && (
             <Typography variant="body2">
-              <FieldTitle>Directed in:</FieldTitle>&nbsp;
+              <FieldTitle>Production countries:</FieldTitle>&nbsp;
               {movie.production_countries.map(({ name }) => name).join(', ')}
             </Typography>
           )}

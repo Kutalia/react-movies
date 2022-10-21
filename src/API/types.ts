@@ -251,13 +251,14 @@ export interface FullTVShow {
   languages: Array<string>;
   first_air_date: string;
   last_air_date: string;
-  last_episode_to_air: Episode;
+  last_episode_to_air?: Episode;
   name: string;
   networks: Array<Network>;
-  next_episode_to_air: null;
+  next_episode_to_air?: Episode | null;
   number_of_episodes: number;
   number_of_seasons: 1;
-  origin_country: Array<string>;
+  original_name?: string;
+  origin_country?: Array<string>;
   original_language?: string;
   original_theme?: string;
   overview: string;
@@ -269,7 +270,7 @@ export interface FullTVShow {
   spoken_languages: Array<SpokenLanguage>;
   status: string;
   tagline?: string;
-  type: string;
+  type?: string;
   vote_average?: number;
   vote_count?: number;
   keywords: {

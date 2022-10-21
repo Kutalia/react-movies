@@ -71,3 +71,7 @@ export const renderSimilarTitleItem = (title: Movie | TVShow) => {
 export const FieldTitle = styled('span')(() => ({
   fontWeight: 'bold',
 }));
+
+export const getEnglishLanguageName = (language: string) => {
+  return new Intl.DisplayNames('en-US', { type: 'language' }).of(language);
+};
