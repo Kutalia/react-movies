@@ -15,7 +15,7 @@ import { AlertContext } from '../../components/Alert/AlertContext';
 import { renderCastItem } from './helpers';
 import { CAST_ON_SCREEN_LIMIT } from './constants';
 import Reviews from './Reviews';
-import { FieldTitle } from './helpers';
+import { getEnglishLanguageName, Field } from './helpers';
 
 const Movie = () => {
   const { id } = useParams();
@@ -74,113 +74,88 @@ const Movie = () => {
             <Rating value={movie.vote_average} max={10} />
           )}
           {movie.vote_count != null && (
-            <Typography variant="body2">
-              <FieldTitle>{movie.vote_count}</FieldTitle>
-              &nbsp;votes
-            </Typography>
+            <Field title={movie.vote_count} body="votes" />
           )}
 
           <TrailerButton id={movie.id} mediaType={MediaType.MOVIE} />
 
           {!!directors.length && (
-            <Typography variant="body2">
-              <FieldTitle>Directed by:</FieldTitle>&nbsp;
-              {directors.join(', ')}
-            </Typography>
+            <Field title="Directed by:" body={directors.join(', ')} />
           )}
 
           {!!screenplay.length && (
-            <Typography variant="body2">
-              <FieldTitle>Screenplay by:</FieldTitle>&nbsp;
-              {screenplay.join(', ')}
-            </Typography>
+            <Field title="Screenplay by:" body={screenplay.join(', ')} />
           )}
 
           {!!composers.length && (
-            <Typography variant="body2">
-              <FieldTitle>Music by:</FieldTitle>&nbsp;
-              {composers.join(', ')}
-            </Typography>
+            <Field title="Music by:" body={composers.join(', ')} />
           )}
 
-          <Typography variant="body2">
-            <FieldTitle>Status:</FieldTitle>&nbsp;
-            {movie.status}
-          </Typography>
+          <Field title="Status:" body={movie.status} />
 
-          <Typography variant="body2">
-            <FieldTitle>Release date:</FieldTitle>&nbsp;
-            {movie.release_date || '_'}
-          </Typography>
+          <Field title="Release date:" body={movie.release_date || '_'} />
 
-          <Typography variant="body2">
-            <FieldTitle>Genres:</FieldTitle>&nbsp;
-            {movie.genres.map(({ name }) => name).join(', ')}
-          </Typography>
+          <Field
+            title="Genres:"
+            body={movie.genres.map(({ name }) => name).join(', ')}
+          />
 
-          <Typography variant="body2">
-            <FieldTitle>Runtime:</FieldTitle>&nbsp;
-            {movie.runtime + 'm'}
-          </Typography>
+          <Field title="Runtime:" body={movie.runtime + 'm'} />
 
           {movie.homepage && (
-            <Typography variant="body2">
-              <FieldTitle>Homepage:</FieldTitle>&nbsp;
-              <a href={movie.homepage}>{movie.homepage}</a>
-            </Typography>
+            <Field
+              title="Homepage:"
+              body={<a href={movie.homepage}>{movie.homepage}</a>}
+            />
           )}
 
           {!!movie.budget && (
-            <Typography variant="body2">
-              <FieldTitle>Budget:</FieldTitle>&nbsp;
-              {formatNumber(movie.budget)}
-            </Typography>
+            <Field title="Budget:" body={formatNumber(movie.budget)} />
           )}
 
           {!!movie.revenue && (
-            <Typography variant="body2">
-              <FieldTitle>Revenue:</FieldTitle>&nbsp;
-              {formatNumber(movie.revenue)}
-            </Typography>
+            <Field title="Revenue:" body={formatNumber(movie.revenue)} />
           )}
 
           {!!movie.keywords.keywords.length && (
-            <Typography variant="body2">
-              <FieldTitle>Keywords:</FieldTitle>&nbsp;
-              {movie.keywords.keywords.map(({ name }) => name).join(', ')}
-            </Typography>
+            <Field
+              title="Keywords:"
+              body={movie.keywords.keywords.map(({ name }) => name).join(', ')}
+            />
           )}
 
           {!!movie.original_language && (
-            <Typography variant="body2">
-              <FieldTitle>Original language:</FieldTitle>&nbsp;
-              {new Intl.DisplayNames('en-US', { type: 'language' }).of(
-                movie.original_language
-              )}
-            </Typography>
+            <Field
+              title="Original language:"
+              body={getEnglishLanguageName(movie.original_language)}
+            />
           )}
 
           {movie.spoken_languages.length && (
-            <Typography variant="body2">
-              <FieldTitle>Spoken languages:</FieldTitle>&nbsp;
-              {movie.spoken_languages
+            <Field
+              title="Spoken languages:"
+              body={movie.spoken_languages
                 .map(({ english_name }) => english_name)
                 .join(', ')}
-            </Typography>
+            />
           )}
 
           {!!movie.production_companies && (
-            <Typography variant="body2">
-              <FieldTitle>Production:</FieldTitle>&nbsp;
-              {movie.production_companies.map(({ name }) => name).join(', ')}
-            </Typography>
+            <Field
+              title="Production:"
+              body={movie.production_companies
+                .map(({ name }) => name)
+                .join(', ')}
+            />
           )}
 
           {!!movie.production_countries && (
-            <Typography variant="body2">
-              <FieldTitle>Production countries:</FieldTitle>&nbsp;
-              {movie.production_countries.map(({ name }) => name).join(', ')}
-            </Typography>
+            <Field
+              title="Production countries:"
+              body={movie.production_countries
+                .map(({ name }) => name)
+                .join(', ')}
+            />
           )}
         </Grid>
         <Grid xs item>
