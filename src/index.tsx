@@ -1,10 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { RouterProvider } from 'react-router-dom';
-import Container from '@mui/material/Container';
 import CssBaseline from '@mui/material/CssBaseline';
 
-import SearchAppBar from './components/SearchAppBar';
 import reportWebVitals from './reportWebVitals';
 
 import router from './router';
@@ -19,9 +17,7 @@ root.render(
     <TrailerProvider>
       <AlertsProvider>
         <CssBaseline />
-        <Container>
-          <RouterProvider router={router} />
-        </Container>
+        <RouterProvider router={router} />
       </AlertsProvider>
     </TrailerProvider>
   </React.StrictMode>

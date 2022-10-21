@@ -1,5 +1,6 @@
 import { useState, useRef, useCallback, useMemo, useEffect } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
+import Container from '@mui/material/Container';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -10,7 +11,7 @@ import TheatersIcon from '@mui/icons-material/Theaters';
 import SearchTooltip from '../SearchTooltip';
 import SearchInput from '../SearchInput';
 
-const SearchAppBar = () => {
+const Layout = () => {
   const anchorRef = useRef<HTMLInputElement | null>(null);
   const [anchorEl, setAnchorEl] = useState<HTMLInputElement | null>(null);
   const [query, setQuery] = useState('');
@@ -86,7 +87,9 @@ const SearchAppBar = () => {
               component="div"
               sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
             >
-              Your N1 Place for Browsing  Movies
+              <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
+                Your N1 Place for Browsing  Movies
+              </Link>
             </Typography>
             <SearchInput
               onChange={handleQueryChange}
@@ -96,10 +99,12 @@ const SearchAppBar = () => {
           </Toolbar>
         </AppBar>
       </Box>
-      
-      <Outlet />
+
+      <Container>
+        <Outlet />
+      </Container>
     </>
   );
 }
 
-export default SearchAppBar;
+export default Layout;

@@ -4,12 +4,12 @@ import {
 
 import Home from './pages/Home';
 import Movie from './pages/FullTitle/Movie';
-import SearchAppBar from './components/SearchAppBar';
+import Layout from './components/Layout';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <SearchAppBar />,
+    element: <Layout />,
     children: [
       {
         path: '/',
