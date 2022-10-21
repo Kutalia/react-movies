@@ -280,7 +280,7 @@ export interface FullTVShow {
     cast: Array<Cast>;
     crew: Array<Crew>;
   };
-  similar: GetResult<Movie>;
+  similar: GetResult<TVShow>;
 }
 
 export interface Trailer {

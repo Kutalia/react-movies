@@ -1,4 +1,4 @@
-import { useMemo, useContext, useEffect } from 'react';
+import { useMemo, useContext, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography';
 import Rating from '@mui/material/Rating';
 
 import { useQuery } from '../../API/hooks';
-import { FullMovie, MediaType, Query } from '../../API/types';
+import { FullMovie, MediaType, Query, Movie } from '../../API/types';
 import GroupedSlider from '../../components/CustomSlider/GroupedSlider';
 import { formatNumber, getCrewByJob, renderSimilarTitleItem } from './helpers';
 import TrailerButton from '../../components/TrailerButton';
@@ -17,7 +17,7 @@ import { CAST_ON_SCREEN_LIMIT } from './constants';
 import Reviews from './Reviews';
 import { getEnglishLanguageName, Field } from './helpers';
 
-const Movie = () => {
+const FullMovieComponent = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -33,6 +33,11 @@ const Movie = () => {
     error: movieError,
     loading: movieLoading,
   } = useQuery<FullMovie>(Query.GET_FULL_TITLE, movieQueryParams);
+
+  const renderSimilar = useCallback(
+    (movie: Movie) => renderSimilarTitleItem(MediaType.MOVIE)(movie),
+    []
+  );
 
   useEffect(() => {
     if (movieError) {
@@ -176,7 +181,7 @@ const Movie = () => {
 
       <GroupedSlider
         items={movie.similar.results}
-        renderItem={renderSimilarTitleItem}
+        renderItem={renderSimilar}
         loading={movieLoading}
         title="Similar Movies"
         onScreenLimit={CAST_ON_SCREEN_LIMIT}
@@ -187,4 +192,4 @@ const Movie = () => {
   );
 };
 
-export default Movie;
+export default FullMovieComponent;

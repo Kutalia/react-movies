@@ -1,4 +1,4 @@
-import { useMemo, useContext, useEffect } from 'react';
+import { useMemo, useContext, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography';
 import Rating from '@mui/material/Rating';
 
 import { useQuery } from '../../API/hooks';
-import { FullTVShow, MediaType, Query } from '../../API/types';
+import { FullTVShow, MediaType, Query, TVShow } from '../../API/types';
 import GroupedSlider from '../../components/CustomSlider/GroupedSlider';
 import { getCrewByJob, renderSimilarTitleItem } from './helpers';
 import TrailerButton from '../../components/TrailerButton';
@@ -17,7 +17,7 @@ import { CAST_ON_SCREEN_LIMIT } from './constants';
 import Reviews from './Reviews';
 import { getEnglishLanguageName, Field } from './helpers';
 
-const TVShow = () => {
+const FullTVShowComponent = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -33,6 +33,11 @@ const TVShow = () => {
     error: tvShowError,
     loading: tvShowLoading,
   } = useQuery<FullTVShow>(Query.GET_FULL_TITLE, tvShowQueryParams);
+
+  const renderSimilar = useCallback(
+    (tvShow: TVShow) => renderSimilarTitleItem(MediaType.TV)(tvShow),
+    []
+  );
 
   useEffect(() => {
     if (tvShowError) {
@@ -233,7 +238,7 @@ const TVShow = () => {
 
       <GroupedSlider
         items={tvShow.similar.results}
-        renderItem={renderSimilarTitleItem}
+        renderItem={renderSimilar}
         loading={tvShowLoading}
         title="Similar TVShows"
         onScreenLimit={CAST_ON_SCREEN_LIMIT}
@@ -244,4 +249,4 @@ const TVShow = () => {
   );
 };
 
-export default TVShow;
+export default FullTVShowComponent;
