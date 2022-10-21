@@ -62,11 +62,11 @@ const Reviews: React.FC<PropTypes> = ({ id }) => {
     }
   }, [reviewsData]);
 
-  if (loading || !reviewsData) {
+  if (loading) {
     return <CircularProgress />;
   }
 
-  if (!loading && reviewsData && !allReviews.length || !allReviews[rowIndex]) {
+  if (error || !reviewsData || !allReviews.length || !allReviews[rowIndex]) {
     return null;
   }
 

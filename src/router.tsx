@@ -5,6 +5,7 @@ import {
 import Home from './pages/Home';
 import Movie from './pages/FullTitle/Movie';
 import Layout from './components/Layout';
+import TVShow from './pages/FullTitle/TVShow';
 
 const router = createBrowserRouter([
   {
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
       {
         path: '/movie/:id',
         element: <Movie />,
+      },
+      {
+        path: '/tv/:id',
+        element: <TVShow />,
       },
     ],
   },

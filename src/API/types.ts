@@ -1,3 +1,5 @@
+import { AxiosError } from "axios";
+
 export enum Query {
   GET_TRENDING_MOVIES,
   GET_POPULAR_MOVIES,
@@ -247,6 +249,7 @@ export interface FullTVShow {
   id: number;
   in_production: boolean;
   languages: Array<string>;
+  first_air_date: string;
   last_air_date: string;
   last_episode_to_air: Episode;
   name: string;
@@ -259,7 +262,7 @@ export interface FullTVShow {
   original_theme?: string;
   overview: string;
   popularity: number;
-  poseter_path?: string;
+  poster_path?: string;
   production_companies?: Array<ProductionCompany>;
   production_countries?: Array<ProductionCountry>;
   seasons: Array<Season>;
@@ -270,9 +273,13 @@ export interface FullTVShow {
   vote_average?: number;
   vote_count?: number;
   keywords: {
-    keywords: Array<Keyword>;
+    results: Array<Keyword>;
   };
-  similar: GetResult<TVShow>;
+  credits: {
+    cast: Array<Cast>;
+    crew: Array<Crew>;
+  };
+  similar: GetResult<Movie>;
 }
 
 export interface Trailer {
@@ -300,5 +307,9 @@ export interface GenreResult {
 export interface HookState<T> {
   data?: T;
   loading?: boolean;
-  error?: string;
+  error?: AxiosError<{
+    status_code: number;
+    status_message: string;
+    success: boolean;
+  }>;
 }

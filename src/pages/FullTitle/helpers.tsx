@@ -1,10 +1,11 @@
+import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 
-import { Cast, FullMovie, Movie } from '../../API/types';
-import { API_PAGE_SIZE } from './constants';
+import { Cast, FullMovie, FullTVShow, Movie, TVShow } from '../../API/types';
+import { normalizeTitle } from '../../API/helpers';
 
 export const formatNumber = (num: number) => {
   return num >= 1000000
@@ -12,7 +13,7 @@ export const formatNumber = (num: number) => {
     : `$${num.toLocaleString('en-US')}`
 };
 
-export const getCrewByJob = (title: FullMovie, jobType: string) => {
+export const getCrewByJob = (title: FullMovie | FullTVShow, jobType: string) => {
   return title.credits.crew.filter(({ job }) => job === jobType).map(({ name }) => name);
 };
 
@@ -36,22 +37,28 @@ export const renderCastItem = (actor: Cast) => {
   )
 };
 
-export const renderSimilarMovieItem = (movie: Movie) => {
+export const renderSimilarTitleItem = (title: Movie | TVShow) => {
+  const normalizedTitle = normalizeTitle(title);
+
   return (
     <Card>
       <CardMedia
         draggable={false}
         component="img"
-        image={movie.poster_path
-          ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
+        image={normalizedTitle.poster_path
+          ? `https://image.tmdb.org/t/p/w500/${normalizedTitle.poster_path}`
           : `${process.env.PUBLIC_URL}/poster-not-found.png`}
-        alt={`similar-movie-poster-${movie.title}`}
+        alt={`similar-normalizedTitle-poster-${normalizedTitle.title}`}
       />
       <CardContent>
         <Typography variant="body1" minHeight={70}>
-          {movie.title}
+          {normalizedTitle.title}
         </Typography>
       </CardContent>
     </Card>
   )
 };
+
+export const FieldTitle = styled('span')(() => ({
+  fontWeight: 'bold',
+}));
