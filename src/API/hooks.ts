@@ -1,6 +1,14 @@
 import { useEffect, useState } from 'react';
 
-import { getFullTitle, getGenres, getPopularTitles, getReviews, getTrailer, getTrendingMovies, searchTitles } from './queries';
+import {
+  getFullTitle,
+  getGenres,
+  getPopularTitles,
+  getReviews,
+  getTrailer,
+  getTrendingMovies,
+  searchTitles,
+} from './queries';
 import {
   Query,
   HookState,
@@ -15,15 +23,14 @@ import {
   FullTVShow,
   GetResult,
   GetReviewsParams,
-  Review
+  Review,
 } from './types';
 
 const defaultState = {};
 
 export const useQuery = <T>(
   query: Query,
-  ...queryParams: (
-    T extends Trailer
+  ...queryParams: T extends Trailer
     ? [GetTrailerParams]
     : T extends Array<Movie> | Array<TVShow>
     ? []
@@ -33,7 +40,7 @@ export const useQuery = <T>(
     ? [GetTitleParams]
     : T extends GetResult<Review>
     ? [GetReviewsParams]
-    : [])
+    : []
 ) => {
   const [state, setState] = useState<HookState<T>>(defaultState);
 
@@ -80,7 +87,9 @@ export const useQuery = <T>(
         if (params) {
           callApi = getReviews(params as GetReviewsParams);
         } else {
-          callApi = Promise.reject('Invalid parameters for getting title reviews');
+          callApi = Promise.reject(
+            'Invalid parameters for getting title reviews'
+          );
         }
         break;
       default:
@@ -93,24 +102,27 @@ export const useQuery = <T>(
         loading: true,
       }));
 
-      callApi.then((data) => {
-        if (data) {
+      callApi
+        .then((data) => {
+          if (data) {
+            setState((prevState) => ({
+              ...prevState,
+              data,
+            }));
+          }
+        })
+        .catch((error) => {
           setState((prevState) => ({
             ...prevState,
-            data
+            error,
           }));
-        }
-      }).catch((error) => {
-        setState((prevState) => ({
-          ...prevState,
-          error,
-        }));
-      }).finally(() => {
-        setState((prevState) => ({
-          ...prevState,
-          loading: false,
-        }));
-      });
+        })
+        .finally(() => {
+          setState((prevState) => ({
+            ...prevState,
+            loading: false,
+          }));
+        });
     }
   }, [query, params]);
 

@@ -8,7 +8,7 @@ import Alert from './Alert';
 interface AlertType {
   id: string;
   text: string;
-};
+}
 
 interface AlertContextType {
   alerts: Array<AlertType>;
@@ -17,7 +17,7 @@ interface AlertContextType {
 
 export const AlertContext = createContext<AlertContextType>({
   alerts: [],
-  setAlert: () => { },
+  setAlert: () => {},
 });
 
 interface PropTypes {
@@ -45,21 +45,23 @@ export const AlertsProvider: React.FC<PropTypes> = ({ children }) => {
 
   return (
     <AlertContext.Provider value={{ alerts, setAlert }}>
-      {
-        alerts.map(({ id, text }, index) => (
-          <Snackbar
-            key={id}
-            open={!!alert}
-            autoHideDuration={AUTO_HIDE_DURATION}
+      {alerts.map(({ id, text }, index) => (
+        <Snackbar
+          key={id}
+          open={!!alert}
+          autoHideDuration={AUTO_HIDE_DURATION}
+          onClose={() => handleAlertClose(id)}
+          sx={{ bottom: `${4 * index}rem !important` }}
+        >
+          <Alert
             onClose={() => handleAlertClose(id)}
-            sx={{ bottom: `${4 * index}rem !important` }}
+            severity="error"
+            sx={{ width: '100%' }}
           >
-            <Alert onClose={() => handleAlertClose(id)} severity="error" sx={{ width: '100%' }}>
-              {text}
-            </Alert>
-          </Snackbar>
-        ))
-      }
+            {text}
+          </Alert>
+        </Snackbar>
+      ))}
       {children}
     </AlertContext.Provider>
   );

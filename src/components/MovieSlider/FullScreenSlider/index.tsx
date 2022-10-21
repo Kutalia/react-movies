@@ -14,9 +14,9 @@ const MovieSlider: React.FC<PropTypes> = ({ movies = [], loading }) => {
     <>
       {loading && <SlideSkeleton />}
       <Carousel autoPlay={false} swipe={false}>
-        {
-          movies.map((item) => <SlideItem key={item.id} movie={item} />)
-        }
+        {movies.map((item) => (
+          <SlideItem key={item.id} movie={item} />
+        ))}
       </Carousel>
     </>
   );

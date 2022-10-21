@@ -18,7 +18,7 @@ const GenresSlider: React.FC<PropTypes> = ({ genres = [], loading, title }) => {
       onScreenLimit={GENRES_ON_SCREEN}
       renderItem={renderItem}
     />
-  )
+  );
 };
 
 export default GenresSlider;

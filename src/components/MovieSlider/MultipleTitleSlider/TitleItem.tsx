@@ -27,7 +27,7 @@ const stylesWrapper = css`
       display: none;
       color: #fff;
     }
-    
+
     :hover {
       .description {
         display: block;
@@ -45,9 +45,11 @@ const TitleItem: React.FC<PropTypes> = ({ title, onClick }) => {
   return (
     <Grid xs={2} position="relative" className={stylesWrapper}>
       <img
-        src={title.poster_path
-          ? `https://image.tmdb.org/t/p/w500/${title.poster_path}`
-          : `${process.env.PUBLIC_URL}/poster-not-found.png`}
+        src={
+          title.poster_path
+            ? `https://image.tmdb.org/t/p/w500/${title.poster_path}`
+            : `${process.env.PUBLIC_URL}/poster-not-found.png`
+        }
         alt={`poster-${title.title}`}
       />
       <Box className="description-wrapper">
@@ -63,7 +65,7 @@ const TitleItem: React.FC<PropTypes> = ({ title, onClick }) => {
         </Link>
       </Box>
     </Grid>
-  )
+  );
 };
 
 export default TitleItem;

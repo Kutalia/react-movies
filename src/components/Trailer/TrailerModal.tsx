@@ -12,7 +12,10 @@ import { TrailerContext } from './TrailerContext';
 const TrailerModal = () => {
   const { trailerQuery, setTrailerQuery } = useContext(TrailerContext);
   const { setAlert } = useContext(AlertContext);
-  const { data, error, loading } = useQuery<Trailer>(Query.GET_TRAILER, trailerQuery as GetTrailerParams);
+  const { data, error, loading } = useQuery<Trailer>(
+    Query.GET_TRAILER,
+    trailerQuery as GetTrailerParams
+  );
 
   const youtubeId = data?.key;
 
@@ -35,11 +38,7 @@ const TrailerModal = () => {
         aria-describedby="trailer modal"
       >
         <Box sx={{ textAlign: 'center', marginTop: 20 }} onClick={handleClose}>
-          {
-            loading
-              ? <CircularProgress />
-              : <Youtube videoId={youtubeId} />
-          }
+          {loading ? <CircularProgress /> : <Youtube videoId={youtubeId} />}
         </Box>
       </Modal>
     </>

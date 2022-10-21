@@ -4,7 +4,7 @@ import Pagination from '@mui/material/Pagination';
 import CircularProgress from '@mui/material/CircularProgress';
 import Typography from '@mui/material/Typography';
 import ReactMarkdown from 'react-markdown';
-import rehypeRaw from 'rehype-raw'
+import rehypeRaw from 'rehype-raw';
 
 import { API_PAGE_SIZE } from './constants';
 import { useQuery } from '../../API/hooks';
@@ -21,9 +21,20 @@ const Reviews: React.FC<PropTypes> = ({ id }) => {
   const [requestPage, setRequestPage] = useState(1);
   const [allReviews, setAllReviews] = useState<Array<Array<Review>>>([]);
 
-  const reviewsParams = useMemo(() => ({ mediaType: MediaType.MOVIE, id: id as unknown as number, page: requestPage }), [id, requestPage]);
+  const reviewsParams = useMemo(
+    () => ({
+      mediaType: MediaType.MOVIE,
+      id: id as unknown as number,
+      page: requestPage,
+    }),
+    [id, requestPage]
+  );
 
-  const { data: reviewsData, error, loading } = useQuery<GetResult<Review>>(Query.GET_REVIEWS, reviewsParams);
+  const {
+    data: reviewsData,
+    error,
+    loading,
+  } = useQuery<GetResult<Review>>(Query.GET_REVIEWS, reviewsParams);
 
   const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
     setPage(value);
@@ -40,7 +51,7 @@ const Reviews: React.FC<PropTypes> = ({ id }) => {
   // which api page is associated with the current front end page
   const rowIndex = Math.floor((page - 1) / API_PAGE_SIZE);
   // review index in the api page
-  const columnIndex = ((page - 1) % API_PAGE_SIZE);
+  const columnIndex = (page - 1) % API_PAGE_SIZE;
 
   useEffect(() => {
     // request new page
@@ -94,7 +105,7 @@ const Reviews: React.FC<PropTypes> = ({ id }) => {
         onChange={handleChange}
       />
     </Box>
-  )
+  );
 };
 
 export default Reviews;

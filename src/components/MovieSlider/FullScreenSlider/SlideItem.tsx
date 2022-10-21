@@ -22,7 +22,9 @@ const MovieItem: React.FC<PropTypes> = ({ movie }) => {
       <Grid spacing={1} container sx={{ height: '420px' }}>
         <Grid xs sx={{ padding: 4 }}>
           <Typography variant="h4">{movie.title}</Typography>
-          <Typography variant="body1" paddingTop={4}>{movie.overview}</Typography>
+          <Typography variant="body1" paddingTop={4}>
+            {movie.overview}
+          </Typography>
 
           <TrailerButton id={movie.id} mediaType={MediaType.MOVIE} />
         </Grid>
@@ -37,7 +39,7 @@ const MovieItem: React.FC<PropTypes> = ({ movie }) => {
         </Grid>
       </Grid>
     </Card>
-  )
+  );
 };
 
 export default MovieItem;

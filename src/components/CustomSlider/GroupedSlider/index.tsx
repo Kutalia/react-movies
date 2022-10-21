@@ -15,35 +15,51 @@ interface PropTypes<T> {
   renderItem: (item: T) => JSX.Element;
 }
 
-const GroupedSlider = <T extends unknown>({ loading, title, items, onScreenLimit, renderItem }: PropTypes<T>) => {
+const GroupedSlider = <T extends unknown>({
+  loading,
+  title,
+  items,
+  onScreenLimit,
+  renderItem,
+}: PropTypes<T>) => {
   const groupedItems = useMemo(() => {
-    return groupItems(items, onScreenLimit)
+    return groupItems(items, onScreenLimit);
   }, [items, onScreenLimit]);
 
   return (
     <Box sx={{ textAlign: 'center', marginBottom: 6 }}>
-      {
-        loading || !groupedItems.length
-          ? <CircularProgress sx={{ margin: 'auto' }} />
-          : <>
-            {title && <Typography sx={{ paddingY: 2 }} variant="h4" marginBottom={2}>{title}</Typography>}
-            {/* BUG: might not expand fully on first render https://github.com/Learus/react-material-ui-carousel/issues/189 */}
-            <Carousel autoPlay navButtonsAlwaysInvisible>
-              {groupedItems.map((group, index) => (
-                <Grid container key={index}>
-                  {group.map((item, index) => (
-                    <Grid key={index} sx={{ paddingRight: 4, minHeight: 80, width: `${(1 / onScreenLimit) * 100}%` }}>
-                      {renderItem(item)}
-                    </Grid>
-                  ))}
-                </Grid>
-              ))}
-            </Carousel>
-          </>
-      }
+      {loading || !groupedItems.length ? (
+        <CircularProgress sx={{ margin: 'auto' }} />
+      ) : (
+        <>
+          {title && (
+            <Typography sx={{ paddingY: 2 }} variant="h4" marginBottom={2}>
+              {title}
+            </Typography>
+          )}
+          {/* BUG: might not expand fully on first render https://github.com/Learus/react-material-ui-carousel/issues/189 */}
+          <Carousel autoPlay navButtonsAlwaysInvisible>
+            {groupedItems.map((group, index) => (
+              <Grid container key={index}>
+                {group.map((item, index) => (
+                  <Grid
+                    key={index}
+                    sx={{
+                      paddingRight: 4,
+                      minHeight: 80,
+                      width: `${(1 / onScreenLimit) * 100}%`,
+                    }}
+                  >
+                    {renderItem(item)}
+                  </Grid>
+                ))}
+              </Grid>
+            ))}
+          </Carousel>
+        </>
+      )}
     </Box>
   );
 };
 
 export default GroupedSlider;
-

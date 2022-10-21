@@ -18,36 +18,51 @@ interface PropTypes {
   onItemClick?: () => any;
 }
 
-const MultipleTitleSlider: React.FC<PropTypes> = ({ titles: rawTitles = [], loading, title, onItemClick }) => {
+const MultipleTitleSlider: React.FC<PropTypes> = ({
+  titles: rawTitles = [],
+  loading,
+  title,
+  onItemClick,
+}) => {
   const titles = useMemo(
     () => rawTitles.map((title) => normalizeTitle(title)),
     [rawTitles]
-  )
+  );
 
-  const [filteredTitles, setFilteredTitles] = useState(titles.slice(0, SLIDER_SIZE));
+  const [filteredTitles, setFilteredTitles] = useState(
+    titles.slice(0, SLIDER_SIZE)
+  );
 
-  const handleSliderChange = useCallback((value: number) => {
-    if (titles.length) {
-      setFilteredTitles(titles.slice(value, value + SLIDER_SIZE));
-    }
-  }, [titles]);
+  const handleSliderChange = useCallback(
+    (value: number) => {
+      if (titles.length) {
+        setFilteredTitles(titles.slice(value, value + SLIDER_SIZE));
+      }
+    },
+    [titles]
+  );
 
   useEffect(() => {
     handleSliderChange(0);
   }, [handleSliderChange]);
 
   const ItemSkeleton = () => <Skeleton sx={{ width: '100%' }} height={33} />;
-  const skeletons = [...Array(5)].map((_, index) => <ItemSkeleton key={index} />);
+  const skeletons = [...Array(5)].map((_, index) => (
+    <ItemSkeleton key={index} />
+  ));
 
   return (
     <>
       <Box sx={{ paddingX: 6, marginY: 8, textAlign: 'center' }}>
-        {title && <Typography variant="h4" marginBottom={2}>{title}</Typography>}
-        {loading
-          ? <>
-            {skeletons}
-          </>
-          : <>
+        {title && (
+          <Typography variant="h4" marginBottom={2}>
+            {title}
+          </Typography>
+        )}
+        {loading ? (
+          <>{skeletons}</>
+        ) : (
+          <>
             <Grid container>
               {filteredTitles.map((movie) => (
                 <TitleItem title={movie} key={movie.id} onClick={onItemClick} />
@@ -67,7 +82,7 @@ const MultipleTitleSlider: React.FC<PropTypes> = ({ titles: rawTitles = [], load
               />
             </Box>
           </>
-        }
+        )}
       </Box>
     </>
   );

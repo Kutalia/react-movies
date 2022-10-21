@@ -21,11 +21,18 @@ const TVShow = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const tvShowQueryParams = useMemo(() => ({ mediaType: MediaType.TV, id: id as unknown as number }), [id]);
+  const tvShowQueryParams = useMemo(
+    () => ({ mediaType: MediaType.TV, id: id as unknown as number }),
+    [id]
+  );
 
   const { setAlert } = useContext(AlertContext);
 
-  const { data: tvShow, error: tvShowError, loading: tvShowLoading } = useQuery<FullTVShow>(Query.GET_FULL_TITLE, tvShowQueryParams);
+  const {
+    data: tvShow,
+    error: tvShowError,
+    loading: tvShowLoading,
+  } = useQuery<FullTVShow>(Query.GET_FULL_TITLE, tvShowQueryParams);
 
   useEffect(() => {
     if (tvShowError) {
@@ -51,50 +58,48 @@ const TVShow = () => {
             {tvShow.adult && ' (18+)'}
           </Typography>
 
-          {
-            tvShow.tagline &&
+          {tvShow.tagline && (
             <Typography variant="body2" fontStyle="italic">
               {tvShow.tagline}
             </Typography>
-          }
+          )}
 
           <Typography paddingY={2} variant="body1">
             {tvShow.overview}
           </Typography>
 
-          {tvShow.vote_average != null && <Rating value={tvShow.vote_average} max={10} />}
-          {tvShow.vote_count != null &&
+          {tvShow.vote_average != null && (
+            <Rating value={tvShow.vote_average} max={10} />
+          )}
+          {tvShow.vote_count != null && (
             <Typography variant="body2">
               <FieldTitle>{tvShow.vote_count}</FieldTitle>
               &nbsp;votes
             </Typography>
-          }
+          )}
 
           <TrailerButton id={tvShow.id} mediaType={MediaType.TV} />
 
-          {
-            !!directors.length &&
+          {!!directors.length && (
             <Typography variant="body2">
               <FieldTitle>Directed by:</FieldTitle>&nbsp;
               {directors.join(', ')}
             </Typography>
-          }
+          )}
 
-          {
-            !!screenplay.length &&
+          {!!screenplay.length && (
             <Typography variant="body2">
               <FieldTitle>Screenplay by:</FieldTitle>&nbsp;
               {screenplay.join(', ')}
             </Typography>
-          }
+          )}
 
-          {
-            !!composers.length &&
+          {!!composers.length && (
             <Typography variant="body2">
               <FieldTitle>Music by:</FieldTitle>&nbsp;
               {composers.join(', ')}
             </Typography>
-          }
+          )}
 
           <Typography variant="body2">
             <FieldTitle>Status:</FieldTitle>&nbsp;
@@ -111,70 +116,60 @@ const TVShow = () => {
             {tvShow.genres.map(({ name }) => name).join(', ')}
           </Typography>
 
-          {!!tvShow.episode_run_time.length &&
+          {!!tvShow.episode_run_time.length && (
             <Typography variant="body2">
               <FieldTitle>Episode runtime:</FieldTitle>&nbsp;
               {tvShow.episode_run_time.join('m, ') + 'm'}
             </Typography>
-          }
+          )}
 
-          {
-            !!tvShow.homepage?.length &&
+          {!!tvShow.homepage?.length && (
             <Typography variant="body2">
               <FieldTitle>Homepage:</FieldTitle>&nbsp;
               <a href={tvShow.homepage}>{tvShow.homepage}</a>
             </Typography>
-          }
+          )}
 
-          {
-            !!tvShow.keywords.results.length &&
+          {!!tvShow.keywords.results.length && (
             <Typography variant="body2">
               <FieldTitle>Keywords:</FieldTitle>&nbsp;
               {tvShow.keywords.results.map(({ name }) => name).join(', ')}
             </Typography>
-          }
+          )}
 
-          {
-            !!tvShow.original_language &&
+          {!!tvShow.original_language && (
             <Typography variant="body2">
               <FieldTitle>Original language:</FieldTitle>&nbsp;
-              {
-                (new Intl.DisplayNames('en-US', { type: 'language' })).of(tvShow.original_language)
-              }
+              {new Intl.DisplayNames('en-US', { type: 'language' }).of(
+                tvShow.original_language
+              )}
             </Typography>
-          }
+          )}
 
-          {
-            tvShow.spoken_languages.length &&
+          {tvShow.spoken_languages.length && (
             <Typography variant="body2">
               <FieldTitle>Spoken languages:</FieldTitle>&nbsp;
-              {
-                tvShow.spoken_languages.map(({ english_name }) => english_name).join(', ')
-              }
+              {tvShow.spoken_languages
+                .map(({ english_name }) => english_name)
+                .join(', ')}
             </Typography>
-          }
+          )}
 
-          {
-            !!tvShow.production_companies &&
+          {!!tvShow.production_companies && (
             <Typography variant="body2">
               <FieldTitle>Production:</FieldTitle>&nbsp;
-              {
-                tvShow.production_companies.map(({ name }) => name).join(', ')
-              }
+              {tvShow.production_companies.map(({ name }) => name).join(', ')}
             </Typography>
-          }
+          )}
 
-          {
-            !!tvShow.production_countries &&
+          {!!tvShow.production_countries && (
             <Typography variant="body2">
               <FieldTitle>Directed in:</FieldTitle>&nbsp;
-              {
-                tvShow.production_countries.map(({ name }) => name).join(', ')
-              }
+              {tvShow.production_countries.map(({ name }) => name).join(', ')}
             </Typography>
-          }
+          )}
         </Grid>
-        
+
         <Grid xs item>
           <img
             src={`https://image.tmdb.org/t/p/w500/${tvShow.poster_path}`}

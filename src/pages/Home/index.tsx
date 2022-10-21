@@ -12,10 +12,26 @@ import { AlertContext } from '../../components/Alert/AlertContext';
 const Home = () => {
   const { setAlert } = useContext(AlertContext);
 
-  const { data: trendingMovies, error: trendingMoviesError, loading: trendingMoviesLoading } = useQuery<Array<Movie>>(Query.GET_TRENDING_MOVIES);
-  const { data: popularMovies, error: popularMoviesError, loading: popularMoviesLoading } = useQuery<Array<Movie>>(Query.GET_POPULAR_MOVIES);
-  const { data: popularSeries, error: popularSeriesError, loading: popularSeriesLoading } = useQuery<Array<TVShow>>(Query.GET_POPULAR_SERIES);
-  const { data: genres, error: genresError, loading: genresLoading } = useQuery<Array<Genre>>(Query.GET_GENRES);
+  const {
+    data: trendingMovies,
+    error: trendingMoviesError,
+    loading: trendingMoviesLoading,
+  } = useQuery<Array<Movie>>(Query.GET_TRENDING_MOVIES);
+  const {
+    data: popularMovies,
+    error: popularMoviesError,
+    loading: popularMoviesLoading,
+  } = useQuery<Array<Movie>>(Query.GET_POPULAR_MOVIES);
+  const {
+    data: popularSeries,
+    error: popularSeriesError,
+    loading: popularSeriesLoading,
+  } = useQuery<Array<TVShow>>(Query.GET_POPULAR_SERIES);
+  const {
+    data: genres,
+    error: genresError,
+    loading: genresLoading,
+  } = useQuery<Array<Genre>>(Query.GET_GENRES);
 
   useEffect(() => {
     if (trendingMoviesError) {
@@ -30,16 +46,34 @@ const Home = () => {
     if (genresError) {
       setAlert('Error loading genres');
     }
-  }, [trendingMoviesError, popularMoviesError, popularSeriesError, genresError, setAlert]);
+  }, [
+    trendingMoviesError,
+    popularMoviesError,
+    popularSeriesError,
+    genresError,
+    setAlert,
+  ]);
 
   return (
     <Box>
       <MovieSlider movies={trendingMovies} loading={trendingMoviesLoading} />
 
-      <MultipleTitleSlider titles={popularMovies} loading={popularMoviesLoading} title="Popular Movies This Year" />
-      <MultipleTitleSlider titles={popularSeries} loading={popularSeriesLoading} title="Popular TV Shows This Year" />
+      <MultipleTitleSlider
+        titles={popularMovies}
+        loading={popularMoviesLoading}
+        title="Popular Movies This Year"
+      />
+      <MultipleTitleSlider
+        titles={popularSeries}
+        loading={popularSeriesLoading}
+        title="Popular TV Shows This Year"
+      />
 
-      <GenresSlider genres={genres} loading={genresLoading} title="Movie and TV Show Genres" />
+      <GenresSlider
+        genres={genres}
+        loading={genresLoading}
+        title="Movie and TV Show Genres"
+      />
     </Box>
   );
 };

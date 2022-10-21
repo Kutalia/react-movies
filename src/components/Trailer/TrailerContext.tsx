@@ -9,22 +9,23 @@ interface PropTypes {
 
 export const defaultValue = {
   trailerQuery: null,
-  setTrailerQuery: () => { },
-}
+  setTrailerQuery: () => {},
+};
 
-export const TrailerContext = createContext
-  <{ trailerQuery: { id: number, mediaType: MediaType } | null, setTrailerQuery: React.Dispatch<SetStateAction<GetTrailerParams | null>> }>
-  (defaultValue);
+export const TrailerContext = createContext<{
+  trailerQuery: { id: number; mediaType: MediaType } | null;
+  setTrailerQuery: React.Dispatch<SetStateAction<GetTrailerParams | null>>;
+}>(defaultValue);
 
 export const TrailerProvider: React.FC<PropTypes> = ({ children }) => {
-  const [trailerQuery, setTrailerQuery] = useState<GetTrailerParams | null>(null);
+  const [trailerQuery, setTrailerQuery] = useState<GetTrailerParams | null>(
+    null
+  );
 
   return (
     <TrailerContext.Provider value={{ trailerQuery, setTrailerQuery }}>
-      {
-        trailerQuery && <TrailerModal />
-      }
+      {trailerQuery && <TrailerModal />}
       {children}
     </TrailerContext.Provider>
-  )
+  );
 };

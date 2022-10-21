@@ -1,4 +1,4 @@
-import { AxiosError } from "axios";
+import { AxiosError } from 'axios';
 
 export enum Query {
   GET_TRENDING_MOVIES,

@@ -21,12 +21,16 @@ const SlideSkeleton = () => {
           <Skeleton sx={{ margin: 3, marginLeft: 1 }} width={120} />
         </Grid>
         <Grid sx={{ padding: 0 }}>
-          <Skeleton variant="rectangular" animation="wave" height={420} width={280} />
+          <Skeleton
+            variant="rectangular"
+            animation="wave"
+            height={420}
+            width={280}
+          />
         </Grid>
       </Grid>
     </Card>
-  )
+  );
 };
 
 export default SlideSkeleton;
-

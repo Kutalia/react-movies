@@ -88,7 +88,7 @@ const Layout = () => {
               sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
             >
               <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
-                Your N1 Place for Browsing  Movies
+                Your N1 Place for Browsing Movies
               </Link>
             </Typography>
             <SearchInput
@@ -105,6 +105,6 @@ const Layout = () => {
       </Container>
     </>
   );
-}
+};
 
 export default Layout;

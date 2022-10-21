@@ -50,21 +50,23 @@ interface PropTypes {
   onClick?: React.MouseEventHandler | undefined;
 }
 
-const SearchInput = forwardRef<HTMLInputElement, PropTypes>(({ onChange, onClick }, ref) => {
-  return (
-    <Search>
-      <SearchIconWrapper>
-        <SearchIcon />
-      </SearchIconWrapper>
-      <StyledInputBase
-        placeholder="Search your favorite movies or TV shows"
-        inputProps={{ 'aria-label': 'search' }}
-        onChange={onChange}
-        onClick={onClick}
-        ref={ref}
-      />
-    </Search>
-  );
-});
+const SearchInput = forwardRef<HTMLInputElement, PropTypes>(
+  ({ onChange, onClick }, ref) => {
+    return (
+      <Search>
+        <SearchIconWrapper>
+          <SearchIcon />
+        </SearchIconWrapper>
+        <StyledInputBase
+          placeholder="Search your favorite movies or TV shows"
+          inputProps={{ 'aria-label': 'search' }}
+          onChange={onChange}
+          onClick={onClick}
+          ref={ref}
+        />
+      </Search>
+    );
+  }
+);
 
 export default SearchInput;

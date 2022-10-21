@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import Button from '@mui/material/Button'
+import Button from '@mui/material/Button';
 
 import { TrailerContext } from '../Trailer/TrailerContext';
 import { MediaType } from '../../API/types';
@@ -16,11 +16,7 @@ const TrailerButton: React.FC<PropTypes> = (props) => {
     setTrailerQuery(props);
   };
 
-  return (
-    <Button onClick={handleTrailerOpen}>
-      Watch trailer
-    </Button>
-  );
+  return <Button onClick={handleTrailerOpen}>Watch trailer</Button>;
 };
 
 export default TrailerButton;

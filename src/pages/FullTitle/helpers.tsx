@@ -10,11 +10,16 @@ import { normalizeTitle } from '../../API/helpers';
 export const formatNumber = (num: number) => {
   return num >= 1000000
     ? `$${Number((num / 1000000).toFixed(1)).toLocaleString('en-US')}m`
-    : `$${num.toLocaleString('en-US')}`
+    : `$${num.toLocaleString('en-US')}`;
 };
 
-export const getCrewByJob = (title: FullMovie | FullTVShow, jobType: string) => {
-  return title.credits.crew.filter(({ job }) => job === jobType).map(({ name }) => name);
+export const getCrewByJob = (
+  title: FullMovie | FullTVShow,
+  jobType: string
+) => {
+  return title.credits.crew
+    .filter(({ job }) => job === jobType)
+    .map(({ name }) => name);
 };
 
 export const renderCastItem = (actor: Cast) => {
@@ -23,10 +28,12 @@ export const renderCastItem = (actor: Cast) => {
       <CardMedia
         draggable={false}
         component="img"
-        image={actor.profile_path
-          ? `https://image.tmdb.org/t/p/w500/${actor.profile_path}`
-          : `${process.env.PUBLIC_URL}/poster-not-found.png`}
-          alt={`actor-poster-${actor.name}`}
+        image={
+          actor.profile_path
+            ? `https://image.tmdb.org/t/p/w500/${actor.profile_path}`
+            : `${process.env.PUBLIC_URL}/poster-not-found.png`
+        }
+        alt={`actor-poster-${actor.name}`}
       />
       <CardContent>
         <Typography variant="body1" minHeight={70}>
@@ -34,7 +41,7 @@ export const renderCastItem = (actor: Cast) => {
         </Typography>
       </CardContent>
     </Card>
-  )
+  );
 };
 
 export const renderSimilarTitleItem = (title: Movie | TVShow) => {
@@ -45,9 +52,11 @@ export const renderSimilarTitleItem = (title: Movie | TVShow) => {
       <CardMedia
         draggable={false}
         component="img"
-        image={normalizedTitle.poster_path
-          ? `https://image.tmdb.org/t/p/w500/${normalizedTitle.poster_path}`
-          : `${process.env.PUBLIC_URL}/poster-not-found.png`}
+        image={
+          normalizedTitle.poster_path
+            ? `https://image.tmdb.org/t/p/w500/${normalizedTitle.poster_path}`
+            : `${process.env.PUBLIC_URL}/poster-not-found.png`
+        }
         alt={`similar-normalizedTitle-poster-${normalizedTitle.title}`}
       />
       <CardContent>
@@ -56,7 +65,7 @@ export const renderSimilarTitleItem = (title: Movie | TVShow) => {
         </Typography>
       </CardContent>
     </Card>
-  )
+  );
 };
 
 export const FieldTitle = styled('span')(() => ({
