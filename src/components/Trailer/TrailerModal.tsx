@@ -1,18 +1,17 @@
-import { useState, useContext, useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import Modal from '@mui/material/Modal';
 import CircularProgress from '@mui/material/CircularProgress';
 import Youtube from 'react-youtube';
-import Snackbar from '@mui/material/Snackbar';
 import Box from '@mui/material/Box';
 
+import { AlertContext } from '../Alert/AlertContext';
 import { useQuery } from '../../API/hooks';
 import { GetTrailerParams, Query, Trailer } from '../../API/types';
 import { TrailerContext } from './TrailerContext';
-import Alert from '../Alert/Alert';
 
 const TrailerModal = () => {
-  const [alert, setAlert] = useState<string | null>(null);
   const { trailerQuery, setTrailerQuery } = useContext(TrailerContext);
+  const { setAlert } = useContext(AlertContext);
   const { data, error, loading } = useQuery<Trailer>(Query.GET_TRAILER, trailerQuery as GetTrailerParams);
 
   const youtubeId = data?.key;
@@ -25,29 +24,19 @@ const TrailerModal = () => {
     if (error) {
       setAlert('Failed to load trailer');
     }
-  }, [error]);
-
-  const handleAlertClose = () => {
-    setAlert(null);
-    handleClose();
-  };
+  }, [error, setAlert]);
 
   return (
     <>
-      <Snackbar open={!!alert} autoHideDuration={6000} onClose={handleAlertClose}>
-        <Alert onClose={handleAlertClose} severity="error" sx={{ width: '100%' }}>
-          {alert}
-        </Alert>
-      </Snackbar>
       <Modal
-        open={!!youtubeId}
+        open={!!youtubeId || !!loading}
         onClose={handleClose}
         aria-labelledby="trailer"
         aria-describedby="trailer modal"
       >
         <Box sx={{ textAlign: 'center', marginTop: 20 }} onClick={handleClose}>
           {
-            loading || error || !youtubeId
+            loading
               ? <CircularProgress />
               : <Youtube videoId={youtubeId} />
           }

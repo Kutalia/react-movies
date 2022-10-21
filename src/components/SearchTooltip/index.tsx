@@ -39,7 +39,7 @@ const SearchTooltip: React.FC<PropTypes> = ({ open, anchorEl, onClose, query }) 
       }}
     >
       <Box sx={{ width: '50vw' }}>
-        {data?.length
+        {data?.length || loading
           ? <MultipleTitleSlider
             titles={data}
             loading={loading}
